@@ -2,117 +2,218 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<title>FCP Knowledge Graph</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FCP Knowledge Graph – Fundamentals of Computer Programming (C)</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f7fb;--panel:#fff;--ink:#1b2033;--mute:#6b7288;--line:#c9cee0;--bd:#e0e3ee;--acc:#3b5bdb;
---c0:#0f9d8a;--c1:#3b5bdb;--c2:#e8590c;--c3:#9c36b5;--c4:#d6336c;--c5:#f08c00;
+:root{--bg:#f5f7fc;--bg2:#ffffff;--fg:#141a33;--mut:#5d6788;--line:#d5dbf0;--acc:#0a7d68;--edge:#7a86ad;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141d;--panel:#1b1e2b;--ink:#e8eaf3;--mute:#8f96ae;--line:#3a3f57;--bd:#2b2f42;--acc:#748ffc;--c0:#38d9a9;--c1:#748ffc;--c2:#ff922b;--c3:#da77f2;--c4:#f783ac;--c5:#ffd43b}}
-:root[data-theme="dark"]{--bg:#12141d;--panel:#1b1e2b;--ink:#e8eaf3;--mute:#8f96ae;--line:#3a3f57;--bd:#2b2f42;--acc:#748ffc;--c0:#38d9a9;--c1:#748ffc;--c2:#ff922b;--c3:#da77f2;--c4:#f783ac;--c5:#ffd43b}
-*{box-sizing:border-box}html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:flex;flex-direction:column}
-header{padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-h1{font-size:17px;margin:0;flex:1 1 220px}h1 small{display:block;font-weight:400;color:var(--mute);font-size:12px}
-input[type=search]{flex:1 1 180px;max-width:280px;padding:7px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
-.prog{flex:1 1 150px;max-width:220px;font-size:12px;color:var(--mute)}.bar{height:7px;background:var(--bd);border-radius:5px;overflow:hidden;margin-top:3px}.bar i{display:block;height:100%;width:0;background:var(--c0);transition:width .3s}
-.chips{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--bd)}
-.chip{border:1.5px solid var(--k);color:var(--ink);background:transparent;border-radius:16px;padding:4px 11px;font-size:12.5px;cursor:pointer}
-.chip.on{background:var(--k);color:#fff}.chip.off{opacity:.45}
-main{flex:1;display:flex;min-height:0}
-#cv{flex:1;min-width:0;display:block;touch-action:none;cursor:grab}
-aside{width:300px;background:var(--panel);border-left:1px solid var(--bd);padding:14px;overflow:auto;font-size:14px}
-aside h2{font-size:16px;margin:4px 0 6px}aside .tag{display:inline-block;font-size:11.5px;color:#fff;padding:2px 9px;border-radius:10px}
-.btn{display:inline-block;margin:10px 8px 6px 0;padding:8px 13px;background:var(--acc);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:13.5px}
-label{font-size:13.5px;cursor:pointer}
-.lk{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--bd);padding:7px 2px;color:var(--ink);font-size:13px;cursor:pointer}.lk:hover{color:var(--acc)}
-h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:14px 0 2px}
-.hint{color:var(--mute);font-size:13px;line-height:1.5}
-footer{font-size:11.5px;color:var(--mute);padding:5px 14px;text-align:center;background:var(--panel);border-top:1px solid var(--bd)}
-@media(max-width:720px){main{flex-direction:column}aside{width:100%;height:36%;border-left:0;border-top:1px solid var(--bd)}}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0f1f;--bg2:#131a33;--fg:#e8ecf8;--mut:#95a0c4;--line:#2a3563;--acc:#7cf0d0;--edge:#8896c8}}
+:root[data-theme="dark"]{--bg:#0a0f1f;--bg2:#131a33;--fg:#e8ecf8;--mut:#95a0c4;--line:#2a3563;--acc:#7cf0d0;--edge:#8896c8}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+header{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:12px 16px 6px}
+h1{font-size:20px;margin:0;letter-spacing:-.3px}
+h1 span{color:var(--acc)}
+.sub{font-size:12px;color:var(--mut)}
+.sp{flex:1}
+input[type=search]{background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;width:230px;max-width:100%}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px}
+.btn:hover{border-color:var(--acc)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:4px 16px 8px;scrollbar-width:thin}
+.chip{flex:none;display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--line);color:var(--fg);border-radius:999px;padding:5px 11px;font-size:12px}
+.chip i{width:9px;height:9px;border-radius:50%;display:block}
+.chip.off{opacity:.4}
+.chip b{color:var(--mut);font-weight:400}
+main{flex:1;position:relative;min-height:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
+#tip{position:absolute;pointer-events:none;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;display:none;max-width:260px;box-shadow:0 4px 18px #0004}
+#tip small{color:var(--mut);display:block}
+.zoom{position:absolute;left:12px;bottom:12px;display:flex;flex-direction:column;gap:6px}
+.zoom .btn{width:36px;height:36px;padding:0;font-size:18px}
+.key{position:absolute;left:60px;bottom:16px;font-size:11px;color:var(--mut);display:flex;gap:12px;flex-wrap:wrap;pointer-events:none}
+#panel{position:absolute;right:12px;top:8px;width:320px;max-height:calc(100% - 20px);overflow:auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px;display:none;box-shadow:0 10px 40px #0005}
+#panel h2{font-size:18px;margin:6px 0 4px;line-height:1.25}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.tag i{width:9px;height:9px;border-radius:50%}
+.open{display:block;text-align:center;background:var(--acc);color:var(--bg);text-decoration:none;font-weight:700;border-radius:10px;padding:10px;margin:12px 0}
+.url{font-size:11px;color:var(--mut);word-break:break-all;margin-bottom:6px}
+.note{font-size:12px;color:var(--mut);background:var(--bg);border-radius:8px;padding:7px 9px;margin:8px 0}
+.x{position:absolute;right:10px;top:8px;background:none;border:0;color:var(--mut);font-size:22px}
+.nb{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.nb button{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:12px}
+.nb button:hover{border-color:var(--acc)}
+h3{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);margin:14px 0 0}
+dialog{background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:16px;max-width:560px;width:calc(100% - 24px);padding:20px}
+dialog::backdrop{background:#0008}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+td,th{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mut);font-weight:400;font-size:11px;text-transform:uppercase}
+@media(max-width:700px){#panel{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-height:48%}.zoom{bottom:auto;top:8px}.key{display:none}input[type=search]{width:100%}}
 </style>
 </head>
 <body>
 <header>
-<h1>FCP Knowledge Graph<small>Fundamentals of Computer Programming using C · By Prof. Rahul M. Samant</small></h1>
-<input id="q" type="search" placeholder="Search lessons…" aria-label="Search lessons">
-<div class="prog"><span id="pt">0 / 28 watched</span><div class="bar"><i id="pb"></i></div></div>
+  <div><h1>FCP <span>Knowledge Graph</span></h1><div class="sub">Fundamentals of Computer Programming · Prof. Rahul M. Samant</div></div>
+  <div class="sp"></div>
+  <input id="q" type="search" placeholder="Search lectures &amp; tools…  ( / )" autocomplete="off">
+  <button class="btn" id="dupBtn"></button>
 </header>
 <div class="chips" id="chips"></div>
-<main>
-<canvas id="cv"></canvas>
-<aside id="side"><p class="hint"><b>How to use</b><br>Tap a node to see the lesson, its prerequisites and what to watch next. Arrows point in the suggested learning order. Drag nodes to rearrange, and mark lessons as watched to track progress.</p></aside>
+<main id="main">
+  <canvas id="cv"></canvas>
+  <div id="tip"></div>
+  <div class="zoom"><button class="btn" id="zi" aria-label="Zoom in">+</button><button class="btn" id="zo" aria-label="Zoom out">−</button><button class="btn" id="zf" aria-label="Fit" style="font-size:13px">⤢</button></div>
+  <div class="key"><span>● lecture video</span><span>◆ tool / app</span><span>— lecture sequence</span><span>┄ related tool / topic</span></div>
+  <aside id="panel"></aside>
 </main>
-<footer>Prepared by Prof. Rahul M. Samant </footer>
+<dialog id="dlg"></dialog>
 <script>
-const CL=[["Foundations","--c0"],["Introduction to C","--c1"],["Core C Concepts","--c2"],["Textbook Reviews","--c3"],["Practice & Assessment","--c4"],["Skills & Mindset","--c5"]];
-const N=[
-["0","Computer Programming","VeCdA5cO3Rw",0],["0.1","Programming Process","SQoHr5DYUo4",0],["1","TH1 Computer Hardware & Software Fundamentals","6Q1Id-HrZkI",0],["2","TH2 Internet Architecture & Cyber Security","HVWoo8sCMKI",0],
-["3.0","Introduction to C","51kksOUUmlo",1],["3.1","Introduction to C with More Examples","jrzrPzyg4LI",1],["3.2","C Programming Introduction","mtg4xNfZsUc",1],["3.3","Introduction to C Prog (Part 4)","lD48EUaclkY",1],["5.1","C Language from a Linguistic Point of View","CM2lElJ8ZaA",1],["4.1","C Data Types & Scientific Apps","nicoBWmio2c",1],
-["6","Control Flows, Array & Functions","t872IwqYk4w",2],["9.3.1","Extra: Loops & 1-D Array","UEVa-PDFV8M",2],["6.1","Recursion","xRvYGRDi4qs",2],["7.1","Strings","ivlKbkR5Yg8",2],["7.2","Pointers & Dynamic Memory","VssWs7I2dXo",2],["8","Structure, Union & File Handling","2QbYiLB0Y4I",2],["8.1","Safe Programming & Debugging","2W-1T0ZZqcU",2],
-["9.1","Chapters 1 & 2","Hm4Q1k1FaWU",3],["9.2","Chapters 3 & 4","IDZJB2EttvE",3],["9.3","Chapters 8 & 13","WuM86AieAYw",3],["9.∞","Cryptic C","cHRr4-HrlUs",3],
-["4","C Programs List for Practice","uvgGJCIvlF8",4],["10","Gamification of C Programming","Oft0dSIZO0Y",4],["15","Exercise & Tests","2lFaajGl928",4],
-["12","Programming Skills","-8TTk8nSE74",5],["13","Lord Ganesha Wisdom & Programming Skills","HiLVD-i8GWM",5],["14","Challenges in Learning C Programming","hP1gV1oD4J4",5],["AI","Building Calculator using Agents","o7-KpNEz2O0",5]
-].map((a,i)=>({i,c:a[0],t:a[1],id:a[2],g:a[3]}));
-const ix={};N.forEach(n=>ix[n.c]=n.i);
-const E=[["0","0.1"],["0","1"],["1","2"],["1","3.0"],["3.0","3.1"],["3.1","3.2"],["3.2","3.3"],["3.0","5.1"],["3.3","4.1"],["4.1","6"],["6","9.3.1"],["6","6.1"],["6","7.1"],["7.1","7.2"],["7.2","8"],["8","8.1"],
-["3.1","9.1"],["4.1","9.2"],["8","9.3"],["8.1","9.∞"],["3.3","4"],["6","4"],["4","10"],["10","15"],["0","12"],["12","13"],["13","14"],["6","AI"]].map(e=>[ix[e[0]],ix[e[1]]]);
-const AN=[[.13,.3],[.36,.2],[.6,.55],[.32,.82],[.85,.25],[.85,.78]];
-const S=k=>{try{return localStorage.getItem(k)}catch(e){return null}},P=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
-let seen=new Set(JSON.parse(S("fcp_seen")||"[]")),sel=-1,hov=-1,q="",act=new Set([0,1,2,3,4,5]),W=0,H=0,dr=-1,alpha=1;
-const cv=document.getElementById("cv"),cx=cv.getContext("2d"),css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-N.forEach(n=>{const a=AN[n.g];n.x=a[0]*600+Math.random()*60;n.y=a[1]*500+Math.random()*60;n.vx=n.vy=0});
-function size(){const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);alpha=Math.max(alpha,.5)}
-addEventListener("resize",size);
-function step(){
- if(alpha<.005)return;
- for(const a of N){for(const b of N){if(a===b)continue;let dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy+1;if(d2<28000){const f=2600/d2;a.vx+=dx*f;a.vy+=dy*f}}
-  const an=AN[a.g];a.vx+=(an[0]*W-a.x)*.012;a.vy+=(an[1]*H-a.y)*.012}
- for(const[s,t]of E){const a=N[s],b=N[t];let dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1,f=(d-95)*.02;a.vx+=dx/d*f;a.vy+=dy/d*f;b.vx-=dx/d*f;b.vy-=dy/d*f}
- for(const n of N){if(n.i===dr)continue;n.x+=n.vx*alpha;n.y+=n.vy*alpha;n.vx*=.6;n.vy*=.6;n.x=Math.min(W-24,Math.max(24,n.x));n.y=Math.min(H-24,Math.max(24,n.y))}
- alpha*=.985}
-const match=n=>act.has(n.g)&&(!q||(n.c+" "+n.t).toLowerCase().includes(q));
-function draw(){
- step();cx.clearRect(0,0,W,H);
- const nb=new Set();if(sel>=0)E.forEach(([s,t])=>{if(s===sel)nb.add(t);if(t===sel)nb.add(s)});
- cx.lineWidth=1.5;
- for(const[s,t]of E){const a=N[s],b=N[t],on=match(a)&&match(b),hi=sel>=0&&(s===sel||t===sel);
-  cx.globalAlpha=on?(hi?1:.7):.12;cx.strokeStyle=hi?css("--acc"):css("--line");cx.lineWidth=hi?2.5:1.5;
-  const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,x2=b.x-ux*19,y2=b.y-uy*19;
-  cx.beginPath();cx.moveTo(a.x+ux*18,a.y+uy*18);cx.lineTo(x2,y2);cx.stroke();
-  cx.fillStyle=cx.strokeStyle;cx.beginPath();cx.moveTo(x2+ux*3,y2+uy*3);cx.lineTo(x2-ux*7-uy*4,y2-uy*7+ux*4);cx.lineTo(x2-ux*7+uy*4,y2-uy*7-ux*4);cx.fill()}
- cx.textAlign="center";cx.textBaseline="middle";
- for(const n of N){const m=match(n),dim=!m||(sel>=0&&n.i!==sel&&!nb.has(n.i)&&false),col=css(CL[n.g][1]);
-  cx.globalAlpha=m?1:.18;cx.beginPath();cx.arc(n.x,n.y,n.i===sel?21:17,0,7);
-  cx.fillStyle=seen.has(n.i)?col:css("--panel");cx.fill();cx.lineWidth=n.i===sel?4:2.5;cx.strokeStyle=col;cx.stroke();
-  cx.fillStyle=seen.has(n.i)?"#fff":css("--ink");cx.font="600 11px system-ui,sans-serif";cx.fillText(n.c,n.x,n.y+.5)}
- cx.globalAlpha=1;const L=hov>=0?hov:sel;
- if(L>=0){const n=N[L];cx.font="600 12.5px system-ui,sans-serif";const tw=cx.measureText(n.t).width+16;let lx=Math.min(W-tw/2-4,Math.max(tw/2+4,n.x)),ly=n.y-34<14?n.y+34:n.y-34;
-  cx.fillStyle=css("--ink");cx.beginPath();cx.roundRect(lx-tw/2,ly-13,tw,26,8);cx.fill();cx.fillStyle=css("--bg");cx.fillText(n.t,lx,ly+.5)}
- requestAnimationFrame(draw)}
-const at=e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let b=-1,bd=24*24;for(const n of N){const d=(n.x-x)**2+(n.y-y)**2;if(d<bd){bd=d;b=n.i}}return{b,x,y}};
-let moved=false;
-cv.addEventListener("pointerdown",e=>{const p=at(e);moved=false;if(p.b>=0){dr=p.b;cv.setPointerCapture(e.pointerId)}});
-cv.addEventListener("pointermove",e=>{const p=at(e);if(dr>=0){moved=true;N[dr].x=p.x;N[dr].y=p.y;alpha=.4}else{hov=p.b;cv.style.cursor=p.b>=0?"pointer":"grab"}});
-cv.addEventListener("pointerup",e=>{const p=at(e);if(!moved){pick(p.b)}dr=-1});
-cv.addEventListener("pointerleave",()=>{hov=-1});
-function pick(i){sel=i;panel()}
-function panel(){
- const s=document.getElementById("side");if(sel<0){return}
- const n=N[sel],pre=E.filter(e=>e[1]===sel).map(e=>e[0]),nx=E.filter(e=>e[0]===sel).map(e=>e[1]);
- const lst=a=>a.length?a.map(k=>`<button class="lk" data-k="${k}"><b>${N[k].c}</b> · ${N[k].t}</button>`).join(""):'<div class="hint">None – a starting point.</div>';
- s.innerHTML=`<span class="tag" style="background:var(${CL[n.g][1]})">${CL[n.g][0]}</span><h2>FCP ${n.c}: ${n.t}</h2>
- <a class="btn" href="https://youtu.be/${n.id}" target="_blank" rel="noopener">▶ Watch on YouTube</a><br>
- <label><input type="checkbox" id="w" ${seen.has(sel)?"checked":""}> Mark as watched</label>
- <h3>Watch before</h3>${lst(pre)}<h3>Watch next</h3>${lst(nx)}`;
- document.getElementById("w").onchange=e=>{e.target.checked?seen.add(sel):seen.delete(sel);P("fcp_seen",JSON.stringify([...seen]));prog()};
- s.querySelectorAll(".lk").forEach(b=>b.onclick=()=>pick(+b.dataset.k))}
-function prog(){document.getElementById("pt").textContent=seen.size+" / "+N.length+" watched";document.getElementById("pb").style.width=seen.size/N.length*100+"%"}
-const ch=document.getElementById("chips");
-CL.forEach((c,g)=>{const b=document.createElement("button");b.className="chip on";b.style.setProperty("--k","var("+c[1]+")");b.textContent=c[0]+" ("+N.filter(n=>n.g===g).length+")";
- b.onclick=()=>{act.has(g)?act.delete(g):act.add(g);b.className="chip "+(act.has(g)?"on":"off")};ch.appendChild(b)});
-document.getElementById("q").oninput=e=>{q=e.target.value.trim().toLowerCase()};
-size();prog();for(let i=0;i<250;i++)step();alpha=.3;draw();
+const Y='https://youtu.be/',S='https://script.google.com/macros/s/',G='https://rms-sof.github.io/';
+const groups=[['Foundations','#5b9dff'],['C Basics','#2ec4a0'],['Control & Functions','#f2b53a'],['Memory & Data','#ff7a6b'],['Chapter Reviews','#a77bff'],['Skills & Mindset','#ff7fc4'],['Assessment & Practice','#7ccf3f'],['Learn & Reference','#2fb8e6']];
+const N=[{k:'r',s:'FCP',t:'Fundamentals of Computer Programming'}];
+groups.forEach((g,i)=>N.push({k:'h',g:i,s:g[0],t:g[0]}));
+const v=(g,s,t,id)=>N.push({k:'v',g,s,t,u:Y+id});
+const T=(g,s,t,u,al,n)=>N.push({k:'t',g,s,t,u,al,n});
+// Lecture videos
+v(0,'0','FCP 0 · Computer Programming','VeCdA5cO3Rw');v(0,'0.1','FCP 0.1 · Programming Process','SQoHr5DYUo4');
+v(0,'1','FCP 1 (TH1) · Computer Hardware & Software Fundamentals','6Q1Id-HrZkI');v(0,'2','FCP 2 (TH2) · Internet Architecture & Cyber Security','HVWoo8sCMKI');
+v(1,'3.0','FCP 3.0 · Introduction to C','51kksOUUmlo');v(1,'3.1','FCP 3.1 · Introduction to C with more examples','jrzrPzyg4LI');
+v(1,'3.2','FCP 3.2 · C Programming Introduction','mtg4xNfZsUc');v(1,'3.3','FCP 3.3 · Introduction to C Prog (part 4)','lD48EUaclkY');
+v(1,'4','FCP 4 · C Programs List for Practice','uvgGJCIvlF8');v(1,'4.1','FCP 4.1 · C Data Types & Scientific Apps','nicoBWmio2c');
+v(1,'5.1','FCP 5.1 · C Language from a Linguistic Point of View','CM2lElJ8ZaA');
+v(2,'6','FCP 6 · Control Flows, Array & Functions','t872IwqYk4w');v(2,'6.1','FCP 6.1 · Recursion','xRvYGRDi4qs');
+v(2,'9.3.1','FCP Extra 9.3.1 · Loops & 1-D Array','UEVa-PDFV8M');v(2,'7.1','FCP 7.1 · Strings','ivlKbkR5Yg8');
+v(3,'7.2','FCP 7.2 · Pointers & Dynamic Memory','VssWs7I2dXo');v(3,'8','FCP 8 · Structure, Union & File Handling','2QbYiLB0Y4I');
+v(3,'8.1','FCP 8.1 · Safe Programming & Debugging','2W-1T0ZZqcU');
+v(4,'9.1','FCP 9.1 · Chapters 1 & 2','Hm4Q1k1FaWU');v(4,'9.2','FCP 9.2 · Chapters 3 & 4','IDZJB2EttvE');
+v(4,'9.3','FCP 9.3 · Chapters 8 & 13','WuM86AieAYw');v(4,'9.∞','FCP 9.∞ · Cryptic C','cHRr4-HrlUs');
+v(5,'10','FCP 10 · Gamification of C Programming','Oft0dSIZO0Y');v(5,'12','FCP 12 · Programming Skills','-8TTk8nSE74');
+v(5,'13','FCP 13 · Lord Ganesha Wisdom & Programming Skills','HiLVD-i8GWM');v(5,'14','FCP 14 · Challenges in Learning C Programming','hP1gV1oD4J4');
+v(5,'15','FCP 15 · Exercise & Tests','2lFaajGl928');v(5,'Lab','FCP Lab Information','GhhRnwF_nsk');
+v(5,'Agents','Building Calculator using Agents','o7-KpNEz2O0');
+// Tools & apps
+const D='AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g';
+T(6,'Picker','Student Picker',G+'Coronation/');
+T(6,'C Skill','C Programming Skill Test',G+'C-Skill-Test/');
+T(6,'FCP Skill','FCP Skill Test',G+'FCP-skill-Test/');
+T(6,'Problems','Problem Solving Skills Test',G+'Problem-Solving-Skill-Test/');
+T(6,'Language','Language Tests (Proficiency Tester)',G+'Language-Profeciency-Tester/',['Language Tests','Supporting Tool'],2);
+T(6,'Support','Supporting Tool (Apps Script)',S+'AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK/exec');
+T(6,'Concept Q','Concept Quiz',S+'AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh/exec',['Supporting Tools 1. Concept Quiz'],2);
+T(6,'Debug Q','Debug-Code Quiz',S+D+'/exec',['Supporting Tool','Debug Quiz','Take C Debug-Code Quiz'],5);
+T(6,'Adv Q','Advance Concept Quiz',S+'AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B/exec',['Supporting Tools 3. Advance Concept Quiz'],2);
+T(6,'Hack 1','Hackathon 1 (simple)',S+'AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ/exec');
+T(6,'Hack 2','Hackathon 2 (simple)',S+'AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP/exec');
+T(6,'Hack 3','Hackathon 3 (difficult)',S+'AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ/exec');
+T(7,'Overview','C Programming Overview',G+'C-Programming/',['C Programming Overview','C Programming Language Overview'],3);
+T(7,'C Lib','C Library Functions',G+'C-Lib-Functions/',[],2);
+T(7,'C Games','C By Games',G+'C-By-Games/');
+T(7,'Animate','FCP2 Animations · DNS, Firewall & Vulnerabilities',G+'FCP2-animations/');
+T(7,'Agent','Agentic Calculator Application','https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/');
+T(7,'All','Entire Contents (FCP Knowledge Graph site)',G+'FCP-Knowledge-Graph/');
+const key={};N.forEach((n,i)=>{n.id=i;key[n.s]=i});
+const hub=g=>1+g;
+const E=[];const ed=(a,b,t)=>E.push({a,b,t});
+groups.forEach((_,g)=>ed(0,hub(g),'h'));
+N.forEach(n=>{if(n.k=='v'||n.k=='t')ed(hub(n.g),n.id,'m')});
+for(let g=0;g<6;g++){const m=N.filter(n=>n.k=='v'&&n.g==g);for(let i=1;i<m.length;i++)ed(m[i-1].id,m[i].id,'s')}
+[['Agents','Agent'],['8.1','Debug Q'],['2','Animate'],['3.0','Overview'],['7.1','C Lib'],['10','C Games'],['15','C Skill'],['15','FCP Skill'],['12','Problems'],['5.1','Language'],['9.1','Concept Q'],['9.∞','Adv Q'],['Lab','Hack 1'],['4','Hack 1'],['Hack 1','Hack 2'],['Hack 2','Hack 3'],['Concept Q','Adv Q'],['Overview','C Lib'],['Overview','All']].forEach(p=>ed(key[p[0]],key[p[1]],'x'));
+const adj=N.map(()=>new Set());E.forEach(e=>{adj[e.a].add(e.b);adj[e.b].add(e.a)});
+N.forEach(n=>{n.r=n.k=='r'?26:n.k=='h'?16:n.k=='t'?9:7.5;n.col=n.k=='r'?'#7cf0d0':groups[n.g][1]});
+
+// Deterministic, collision-free layout: each cluster is a "flower" (hub + members on a ring); clusters sit on an ellipse and are then relaxed apart.
+function layout(){
+ const S=86,cl=groups.map((_,g)=>{const m=N.filter(n=>n.g==g&&n.k!='h'),n=m.length,arc=Math.min(5.3,(n-1)*1.05),r=Math.max(112,S*(n-1)/arc);return{g,m,r,arc,e:r+50,x:0,y:0}});
+ const pad=40,R=cl.reduce((a,c)=>a+2*c.e+pad,0)/(2*Math.PI)*1.05;let a=-Math.PI/2;
+ cl.forEach(c=>{const w=(2*c.e+pad)/(R*2*Math.PI)*2*Math.PI;c.x=Math.cos(a+w/2)*R*1.35;c.y=Math.sin(a+w/2)*R;a+=w});
+ for(let it=0;it<600;it++){cl.forEach((c,i)=>{cl.forEach((d,j)=>{if(j<=i)return;let dx=d.x-c.x,dy=d.y-c.y,l=Math.hypot(dx,dy)||1,m=c.e+d.e+14;if(l<m){const f=(m-l)/2/l;c.x-=dx*f;c.y-=dy*f;d.x+=dx*f;d.y+=dy*f}});
+  const l=Math.hypot(c.x,c.y),m=c.e+110;if(l<m){c.x*=m/l;c.y*=m/l}})}
+ cl.forEach(c=>{const h=N[hub(c.g)];h.tx=c.x;h.ty=c.y;h.lu=[0,1];const ph=Math.atan2(c.y,c.x),n=c.m.length;
+  c.m.forEach((m,i)=>{const th=n>1?ph-c.arc/2+i*c.arc/(n-1):ph;m.tx=c.x+Math.cos(th)*c.r;m.ty=c.y+Math.sin(th)*c.r;m.lu=[Math.cos(th),Math.sin(th)]})});
+ N[0].tx=N[0].ty=0;N.forEach(n=>{n.x=0;n.y=0})}
+layout();
+
+const cv=document.getElementById('cv'),cx=cv.getContext('2d'),$=id=>document.getElementById(id);
+let W=0,H=0,dpr=1,cam={x:0,y:0,k:1},dirty=1,sel=null,hov=null,qs='',off=new Set(),anim=1;
+function resize(){const r=cv.getBoundingClientRect();dpr=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;dirty=1}
+function fit(){const vis=N.filter(n=>!off.has(n.g)||n.k=='r');let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;vis.forEach(n=>{x0=Math.min(x0,n.tx-40);x1=Math.max(x1,n.tx+40);y0=Math.min(y0,n.ty-30);y1=Math.max(y1,n.ty+30)});
+ const k=Math.min(W/(x1-x0+60),H/(y1-y0+60),1.8);cam.k=k;cam.x=W/2-(x0+x1)/2*k;cam.y=H/2-(y0+y1)/2*k;dirty=1}
+function step(){anim=0;N.forEach(n=>{const dx=n.tx-n.x,dy=n.ty-n.y;if(Math.abs(dx)+Math.abs(dy)>.3){n.x+=dx*.11;n.y+=dy*.11;anim=1}else{n.x=n.tx;n.y=n.ty}})}
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function alive(n){return n.k=='r'||!off.has(n.g)}
+function lit(n){if(!alive(n))return 0;let ok=1;if(sel!=null)ok=n.id==sel||adj[sel].has(n.id);if(ok&&qs)ok=match(n);return ok}
+function match(n){return (n.s+' '+n.t).toLowerCase().includes(qs)}
+function draw(){cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
+ const fg=css('--fg'),ed_=css('--edge'),bg=css('--bg');cx.setTransform(dpr*cam.k,0,0,dpr*cam.k,dpr*cam.x,dpr*cam.y);const k=cam.k;
+ E.forEach(e=>{const a=N[e.a],b=N[e.b];if(!alive(a)||!alive(b))return;const on=sel!=null&&(e.a==sel||e.b==sel);let al=sel!=null?(on?1:.06):(qs?(lit(a)&&lit(b)?.7:.05):1);
+  cx.globalAlpha=al*(e.t=='h'?.55:e.t=='m'?.3:e.t=='s'?.65:.6);cx.lineWidth=(on?2.4:e.t=='x'?1.6:1.1)/k;cx.strokeStyle=e.t=='x'?css('--acc'):(e.t=='h'?ed_:groups[(a.g!=null?a.g:b.g)][1]);
+  cx.setLineDash(e.t=='x'?[5/k,4/k]:[]);cx.beginPath();cx.moveTo(a.x,a.y);if(e.t=='x'){const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,h=N[hub(a.g)],same=a.g==b.g,px=same?h.x:0,py=same?h.y:0,f=same?.4:.5;cx.quadraticCurveTo(mx+(px-mx)*f,my+(py-my)*f,b.x,b.y)}else cx.lineTo(b.x,b.y);cx.stroke()});
+ cx.setLineDash([]);
+ N.forEach(n=>{if(!alive(n))return;const l=lit(n),isH=hov==n.id||sel==n.id;cx.globalAlpha=l?1:.13;const r=n.r*(isH?1.3:1);
+  cx.fillStyle=n.col;cx.shadowColor=n.col;cx.shadowBlur=(isH?26:n.k=='v'?7:12)*(l?1:0);
+  cx.beginPath();if(n.k=='t'){cx.moveTo(n.x,n.y-r*1.2);cx.lineTo(n.x+r*1.2,n.y);cx.lineTo(n.x,n.y+r*1.2);cx.lineTo(n.x-r*1.2,n.y);cx.closePath()}else cx.arc(n.x,n.y,r,0,7);cx.fill();cx.shadowBlur=0;
+  if(sel==n.id||(qs&&match(n)&&n.k!='h')){cx.strokeStyle=fg;cx.lineWidth=2/k;cx.stroke()}
+  const fs=(n.k=='r'?15:n.k=='h'?12.5:10.5)/k;cx.font=(n.k=='v'?'600 ':'700 ')+fs+'px "Space Grotesk",system-ui,sans-serif';cx.textAlign='center';
+  if(n.k=='r'){cx.fillStyle='#08101e';cx.textBaseline='middle';cx.fillText('FCP',n.x,n.y+.5)}
+  else{cx.fillStyle=fg;const u=n.lu,o=n.r*1.25+4/k;
+   if(n.k=='h'){cx.textBaseline='top';hl(n.s).forEach((t,i)=>cx.fillText(t,n.x,n.y+n.r+4/k+i*fs*1.15))}
+   else{cx.textAlign=u[0]>.4?'left':u[0]<-.4?'right':'center';cx.textBaseline=Math.abs(u[0])>.4?'middle':(u[1]>0?'top':'bottom');cx.fillText(n.s,n.x+u[0]*o,n.y+u[1]*o)}}});
+ cx.globalAlpha=1}
+function hl(t){if(t.length<=11)return[t];const m=t.length/2;let b=0,d=1e9;[...t].forEach((c,i)=>{if(c==' '&&Math.abs(i-m)<d){d=Math.abs(i-m);b=i}});return[t.slice(0,b),t.slice(b+1)]}
+function loop(){if(anim){step();dirty=1}if(dirty){draw();dirty=0}requestAnimationFrame(loop)}
+// interaction
+const P=new Map();let dragN=null,pan=null,mv=0,pd=0;
+const wp=(x,y)=>{const r=cv.getBoundingClientRect();return[(x-r.left-cam.x)/cam.k,(y-r.top-cam.y)/cam.k]};
+function hit(e){const[x,y]=wp(e.clientX,e.clientY);let b=null,bd=1e9;N.forEach(n=>{if(!alive(n)||!lit(n)&&sel==null&&0)return;const d=Math.hypot(n.x-x,n.y-y);if(d<n.r*1.6+4/cam.k&&d<bd){bd=d;b=n}});return b}
+function zoomAt(f,sx,sy){const k=Math.min(4,Math.max(.25,cam.k*f)),r=k/cam.k;cam.x=sx-(sx-cam.x)*r;cam.y=sy-(sy-cam.y)*r;cam.k=k;dirty=1}
+const pdist=()=>{const a=[...P.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])};
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,[e.clientX,e.clientY]);mv=0;
+ if(P.size==2){pd=pdist();dragN=null;pan=null;return}
+ const n=hit(e);if(n&&n.k!='r'){dragN=n}else pan=[e.clientX,e.clientY,cam.x,cam.y];cv.style.cursor='grabbing'});
+cv.addEventListener('pointermove',e=>{
+ if(!P.has(e.pointerId)){const n=hit(e);if(n?n.id!=hov:hov!=null){hov=n?n.id:null;dirty=1;cv.style.cursor=n?'pointer':'grab'}tip(n,e);return}
+ const o=P.get(e.pointerId);P.set(e.pointerId,[e.clientX,e.clientY]);
+ if(P.size==2){const d=pdist(),r=cv.getBoundingClientRect(),a=[...P.values()];zoomAt(d/pd,(a[0][0]+a[1][0])/2-r.left,(a[0][1]+a[1][1])/2-r.top);pd=d;mv=9;return}
+ mv+=Math.abs(e.clientX-o[0])+Math.abs(e.clientY-o[1]);
+ if(dragN&&mv>4){const[x,y]=wp(e.clientX,e.clientY);dragN.x=dragN.tx=x;dragN.y=dragN.ty=y;dirty=1}
+ else if(pan){cam.x=pan[2]+e.clientX-pan[0];cam.y=pan[3]+e.clientY-pan[1];dirty=1}});
+const up=e=>{P.delete(e.pointerId);cv.style.cursor='grab';if(mv<=4&&P.size==0){if(dragN)pick(dragN.id);else if(pan)pick(null)}
+ dragN=null;pan=null;if(P.size==1)pd=0};
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+cv.addEventListener('pointerleave',()=>{tip(null)});
+cv.addEventListener('wheel',e=>{e.preventDefault();const r=cv.getBoundingClientRect();zoomAt(Math.exp(-e.deltaY*.0015),e.clientX-r.left,e.clientY-r.top)},{passive:false});
+function tip(n,e){const t=$('tip');if(!n||n.k=='r'){t.style.display='none';return}const r=cv.getBoundingClientRect();
+ t.innerHTML=esc(n.t)+'<small>'+(n.k=='v'?'▶ Lecture video':n.k=='t'?'◆ Tool / app':'Category · '+members(n.g)+' items')+'</small>';t.style.display='block';
+ t.style.left=Math.min(e.clientX-r.left+14,r.width-270)+'px';t.style.top=(e.clientY-r.top+14)+'px'}
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const members=g=>N.filter(n=>n.g==g&&(n.k=='v'||n.k=='t')).length;
+// panel
+function pick(id){sel=id;const p=$('panel');dirty=1;if(id==null){p.style.display='none';return}
+ const n=N[id],gc=n.col;let h='<button class="x" aria-label="Close" onclick="pick(null)">×</button>';
+ h+='<div class="tag"><i style="background:'+gc+'"></i>'+(n.k=='r'?'Course':n.k=='v'?'Lecture video · '+groups[n.g][0]:n.k=='t'?'Tool · '+groups[n.g][0]:'Category')+'</div><h2>'+esc(n.t)+'</h2>';
+ if(n.u){h+='<a class="open" href="'+n.u+'" target="_blank" rel="noopener noreferrer">'+(n.k=='v'?'▶ Watch on YouTube':'Open tool ↗')+'</a><div class="url">'+esc(n.u)+'</div>'}
+ if(n.n)h+='<div class="note">🔗 '+n.n+' duplicate listings merged into this one node'+(n.al&&n.al.length?' — listed as: '+n.al.map(esc).join(', '):'')+'.</div>';
+ if(n.k=='h')h+='<div class="note">'+members(n.g)+' resources in this cluster. Click one below to explore.</div>';
+ const nb=[...adj[id]].map(i=>N[i]).filter(m=>m.k!='r');
+ if(nb.length){h+='<h3>Connected ('+nb.length+')</h3><div class="nb">'+nb.map(m=>'<button onclick="pick('+m.id+')" style="border-left:3px solid '+m.col+'">'+(m.k=='v'?'▶ ':m.k=='t'?'◆ ':'')+esc(m.s)+'</button>').join('')+'</div>'}
+ p.innerHTML=h;p.style.display='block';p.scrollTop=0}
+// chips, search, dialog
+const nv=N.filter(n=>n.k=='v').length,nt=N.filter(n=>n.k=='t').length,dups=N.reduce((a,n)=>a+(n.n?n.n-1:0),0);
+$('dupBtn').textContent='✓ '+dups+' duplicates merged';
+$('chips').innerHTML='<div class="chip" style="cursor:default">'+nv+' videos · '+nt+' tools · '+(nv+nt)+' unique links</div>'+groups.map((g,i)=>'<button class="chip" data-g="'+i+'"><i style="background:'+g[1]+'"></i>'+g[0]+' <b>'+members(i)+'</b></button>').join('');
+$('chips').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;const g=+b.dataset.g;off.has(g)?off.delete(g):off.add(g);b.classList.toggle('off');if(sel!=null&&!alive(N[sel]))pick(null);dirty=1});
+$('q').addEventListener('input',e=>{qs=e.target.value.trim().toLowerCase();dirty=1});
+$('q').addEventListener('keydown',e=>{if(e.key=='Enter'&&qs){const m=N.find(n=>n.k!='r'&&n.k!='h'&&alive(n)&&match(n));if(m)pick(m.id)}});
+addEventListener('keydown',e=>{if(e.key=='/'&&document.activeElement!=$('q')){e.preventDefault();$('q').focus()}if(e.key=='Escape'){pick(null);$('q').value='';qs='';$('q').blur()}});
+$('zi').onclick=()=>zoomAt(1.3,W/2,H/2);$('zo').onclick=()=>zoomAt(1/1.3,W/2,H/2);$('zf').onclick=fit;
+$('dupBtn').onclick=()=>{const d=$('dlg'),ms=N.filter(n=>n.n);
+ d.innerHTML='<h2 style="margin:0 0 4px">Duplicates resolved</h2><div class="sub">The file held '+(nv+nt+dups)+' links; '+dups+' repeats were merged, leaving '+(nv+nt)+' unique nodes. Every original link is still in the graph.</div><table><tr><th>Node</th><th>Listings</th><th>Appeared as</th></tr>'+ms.map(n=>'<tr><td><a href="#" style="color:var(--acc)" onclick="$(\'dlg\').close();pick('+n.id+');return false">'+esc(n.t)+'</a></td><td>'+n.n+'×</td><td>'+(n.al&&n.al.length?n.al.map(esc).join('; '):'Same title')+'</td></tr>').join('')+'</table><button class="btn" onclick="$(\'dlg\').close()">Close</button>';d.showModal()};
+addEventListener('resize',()=>{resize();fit()});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>dirty=1);
+resize();fit();loop();
 </script>
 </body>
 </html>
