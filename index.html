@@ -2,218 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>FCP Knowledge Graph</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<title>FCP Knowledge Graph(c) RMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f7fc;--bg2:#ffffff;--fg:#141a33;--mut:#5d6788;--line:#d5dbf0;--acc:#0a7d68;--edge:#7a86ad;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0f1f;--bg2:#131a33;--fg:#e8ecf8;--mut:#95a0c4;--line:#2a3563;--acc:#7cf0d0;--edge:#8896c8}}
-:root[data-theme="dark"]{--bg:#0a0f1f;--bg2:#131a33;--fg:#e8ecf8;--mut:#95a0c4;--line:#2a3563;--acc:#7cf0d0;--edge:#8896c8}
-*{box-sizing:border-box}
+:root{--bg:#eef2f7;--card:#fff;--ink:#14202e;--mute:#5b6b7e;--line:#c9d3df;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1622;--card:#17212f;--ink:#e8eef6;--mute:#8fa1b6;--line:#2b3a4e}}
+:root[data-theme="dark"]{--bg:#0e1622;--card:#17212f;--ink:#e8eef6;--mute:#8fa1b6;--line:#2b3a4e}
+*{box-sizing:inherit}
 html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;display:flex;flex-direction:column;overflow:hidden}
-header{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:12px 16px 6px}
-h1{font-size:20px;margin:0;letter-spacing:-.3px}
-h1 span{color:var(--acc)}
-.sub{font-size:12px;color:var(--mut)}
-.sp{flex:1}
-input[type=search]{background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;width:230px;max-width:100%}
-button{font:inherit;cursor:pointer}
-.btn{background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px}
-.btn:hover{border-color:var(--acc)}
-.chips{display:flex;gap:7px;overflow-x:auto;padding:4px 16px 8px;scrollbar-width:thin}
-.chip{flex:none;display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--line);color:var(--fg);border-radius:999px;padding:5px 11px;font-size:12px}
-.chip i{width:9px;height:9px;border-radius:50%;display:block}
-.chip.off{opacity:.4}
-.chip b{color:var(--mut);font-weight:400}
-main{flex:1;position:relative;min-height:0}
-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
-#tip{position:absolute;pointer-events:none;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;display:none;max-width:260px;box-shadow:0 4px 18px #0004}
-#tip small{color:var(--mut);display:block}
-.zoom{position:absolute;left:12px;bottom:12px;display:flex;flex-direction:column;gap:6px}
-.zoom .btn{width:36px;height:36px;padding:0;font-size:18px}
-.key{position:absolute;left:60px;bottom:16px;font-size:11px;color:var(--mut);display:flex;gap:12px;flex-wrap:wrap;pointer-events:none}
-#panel{position:absolute;right:12px;top:8px;width:320px;max-height:calc(100% - 20px);overflow:auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:16px;display:none;box-shadow:0 10px 40px #0005}
-#panel h2{font-size:18px;margin:6px 0 4px;line-height:1.25}
-.tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
-.tag i{width:9px;height:9px;border-radius:50%}
-.open{display:block;text-align:center;background:var(--acc);color:var(--bg);text-decoration:none;font-weight:700;border-radius:10px;padding:10px;margin:12px 0}
-.url{font-size:11px;color:var(--mut);word-break:break-all;margin-bottom:6px}
-.note{font-size:12px;color:var(--mut);background:var(--bg);border-radius:8px;padding:7px 9px;margin:8px 0}
-.x{position:absolute;right:10px;top:8px;background:none;border:0;color:var(--mut);font-size:22px}
-.nb{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.nb button{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:12px}
-.nb button:hover{border-color:var(--acc)}
-h3{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);margin:14px 0 0}
-dialog{background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:16px;max-width:560px;width:calc(100% - 24px);padding:20px}
-dialog::backdrop{background:#0008}
-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
-td,th{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
-th{color:var(--mut);font-weight:400;font-size:11px;text-transform:uppercase}
-@media(max-width:700px){#panel{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-height:48%}.zoom{bottom:auto;top:8px}.key{display:none}input[type=search]{width:100%}}
+body{background:var(--bg);color:var(--ink);font:13px/1.2 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;padding:10px 16px 8px}
+header{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 8px}
+h1{font-size:18px;font-weight:800;margin:0;letter-spacing:-.01em}
+header span{color:var(--mute);font-size:12px}
+main{flex:1;min-height:0;position:relative;display:grid;grid-template-columns:1fr 170px 1fr;gap:0 clamp(40px,7vw,110px)}
+svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+svg path{fill:none;stroke-width:2;opacity:.55;transition:opacity .2s,stroke-width .2s}
+svg path.on{opacity:1;stroke-width:3.5}
+.col{display:flex;flex-direction:column;gap:8px;min-height:0;position:relative;z-index:1}
+.cl{background:var(--card);border-radius:12px;border-left:5px solid var(--c);padding:8px 10px;display:flex;flex-direction:column;justify-content:center;gap:6px;min-height:0;transition:opacity .2s,transform .2s}
+main.f .cl:not(.on){opacity:.35}
+.cl h2{margin:0;font-size:13px;font-weight:800;color:var(--c)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips a{color:var(--ink);text-decoration:none;font-size:12px;font-weight:600;padding:4px 9px;border-radius:99px;border:1.5px solid var(--line);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.chips a::before{content:"";width:6px;height:6px;background:var(--c);border-radius:50%}
+.tool .chips a::before{border-radius:1px;transform:rotate(45deg)}
+.chips a:hover,.chips a:focus-visible{background:var(--c);border-color:var(--c);color:#fff;outline:none}
+.hub{align-self:center;justify-self:center;width:170px;height:170px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-content:center;text-align:center;z-index:2;position:relative}
+.hub b{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.hub small{font-size:11px;padding:4px 14px 0;opacity:.8}
+.side{position:absolute;top:calc(50% + 95px);font-size:12px;color:var(--mute);z-index:2}
+@media (max-width:900px){body{height:auto}main{display:block}svg{display:none}.col{margin-bottom:8px}.hub{display:none}html,body{height:auto}}
 </style>
 </head>
 <body>
-<header>
-  <div><h1>FCP <span>Knowledge Graph</span></h1><div class="sub">Fundamentals of Computer Programming · Prof. Rahul M. Samant</div></div>
-  <div class="sp"></div>
-  <input id="q" type="search" placeholder="Search lectures &amp; tools…  ( / )" autocomplete="off">
-  <button class="btn" id="dupBtn"></button>
-</header>
-<div class="chips" id="chips"></div>
-<main id="main">
-  <canvas id="cv"></canvas>
-  <div id="tip"></div>
-  <div class="zoom"><button class="btn" id="zi" aria-label="Zoom in">+</button><button class="btn" id="zo" aria-label="Zoom out">−</button><button class="btn" id="zf" aria-label="Fit" style="font-size:13px">⤢</button></div>
-  <div class="key"><span>● lecture video</span><span>◆ tool / app</span><span>— lecture sequence</span><span>┄ related tool / topic</span></div>
-  <aside id="panel"></aside>
+<header><h1>FCP knowledge graph : Designed by Prof. Rahul M. Samant</h1><span id="n"></span></header>
+<main id="m">
+<svg id="s"></svg>
+<div class="col" id="L"></div>
+<div class="hub" id="h"><b>FCP</b><small>Fundamentals of Computer Programming</small></div>
+<div class="col" id="R"></div>
 </main>
-<dialog id="dlg"></dialog>
 <script>
-const Y='https://youtu.be/',S='https://script.google.com/macros/s/',G='https://rms-sof.github.io/';
-const groups=[['Foundations','#5b9dff'],['C Basics','#2ec4a0'],['Control & Functions','#f2b53a'],['Memory & Data','#ff7a6b'],['Book Chapter Reviews','#a77bff'],['Skills & Mindset','#ff7fc4'],['Assessment & Practice','#7ccf3f'],['Learn & Reference','#2fb8e6']];
-const N=[{k:'r',s:'FCP',t:'Fundamentals of Computer Programming'}];
-groups.forEach((g,i)=>N.push({k:'h',g:i,s:g[0],t:g[0]}));
-const v=(g,s,t,id)=>N.push({k:'v',g,s,t,u:Y+id});
-const T=(g,s,t,u,al,n)=>N.push({k:'t',g,s,t,u,al,n});
-// Lecture videos
-v(0,'0','FCP 0 · Computer Programming','VeCdA5cO3Rw');v(0,'0.1','FCP 0.1 · Programming Process','SQoHr5DYUo4');
-v(0,'1','FCP 1 (TH1) · Computer Hardware & Software Fundamentals','6Q1Id-HrZkI');v(0,'2','FCP 2 (TH2) · Internet Architecture & Cyber Security','HVWoo8sCMKI');
-v(1,'3.0','FCP 3.0 · Introduction to C','51kksOUUmlo');v(1,'3.1','FCP 3.1 · Introduction to C with more examples','jrzrPzyg4LI');
-v(1,'3.2','FCP 3.2 · C Programming Introduction','mtg4xNfZsUc');v(1,'3.3','FCP 3.3 · Introduction to C Prog (part 4)','lD48EUaclkY');
-v(1,'4','FCP 4 · C Programs List for Practice','uvgGJCIvlF8');v(1,'4.1','FCP 4.1 · C Data Types & Scientific Apps','nicoBWmio2c');
-v(1,'5.1','FCP 5.1 · C Language from a Linguistic Point of View','CM2lElJ8ZaA');
-v(2,'6','FCP 6 · Control Flows, Array & Functions','t872IwqYk4w');v(2,'6.1','FCP 6.1 · Recursion','xRvYGRDi4qs');
-v(2,'9.3.1','FCP Extra 9.3.1 · Loops & 1-D Array','UEVa-PDFV8M');v(2,'7.1','FCP 7.1 · Strings','ivlKbkR5Yg8');
-v(3,'7.2','FCP 7.2 · Pointers & Dynamic Memory','VssWs7I2dXo');v(3,'8','FCP 8 · Structure, Union & File Handling','2QbYiLB0Y4I');
-v(3,'8.1','FCP 8.1 · Safe Programming & Debugging','2W-1T0ZZqcU');
-v(4,'9.1','FCP 9.1 · Chapters 1 & 2','Hm4Q1k1FaWU');v(4,'9.2','FCP 9.2 · Chapters 3 & 4','IDZJB2EttvE');
-v(4,'9.3','FCP 9.3 · Chapters 8 & 13','WuM86AieAYw');v(4,'9.∞','FCP 9.∞ · Cryptic C','cHRr4-HrlUs');
-v(5,'10','FCP 10 · Gamification of C Programming','Oft0dSIZO0Y');v(5,'12','FCP 12 · Programming Skills','-8TTk8nSE74');
-v(5,'13','FCP 13 · Lord Ganesha Wisdom & Programming Skills','HiLVD-i8GWM');v(5,'14','FCP 14 · Challenges in Learning C Programming','hP1gV1oD4J4');
-v(5,'15','FCP 15 · Exercise & Tests','2lFaajGl928');v(5,'Lab','FCP Lab Information','GhhRnwF_nsk');
-v(5,'Agents','Building Calculator using Agents','o7-KpNEz2O0');
-// Tools & apps
-const D='AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g';
-T(6,'Picker','Student Picker',G+'Coronation/');
-T(6,'C Skill','C Programming Skill Test',G+'C-Skill-Test/');
-T(6,'FCP Skill','FCP Skill Test',G+'FCP-skill-Test/');
-T(6,'Problems','Problem Solving Skills Test',G+'Problem-Solving-Skill-Test/');
-T(6,'Language','Language Tests (Proficiency Tester)',G+'Language-Profeciency-Tester/',['Language Tests','Supporting Tool'],2);
-T(6,'Support','Supporting Tool (Apps Script)',S+'AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK/exec');
-T(6,'Concept Q','Concept Quiz',S+'AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh/exec',['Supporting Tools 1. Concept Quiz'],2);
-T(6,'Debug Q','Debug-Code Quiz',S+D+'/exec',['Supporting Tool','Debug Quiz','Take C Debug-Code Quiz'],5);
-T(6,'Adv Q','Advance Concept Quiz',S+'AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B/exec',['Supporting Tools 3. Advance Concept Quiz'],2);
-T(6,'Hack 1','Hackathon 1 (simple)',S+'AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ/exec');
-T(6,'Hack 2','Hackathon 2 (simple)',S+'AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP/exec');
-T(6,'Hack 3','Hackathon 3 (difficult)',S+'AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ/exec');
-T(7,'Overview','C Programming Overview',G+'C-Programming/',['C Programming Overview','C Programming Language Overview'],3);
-T(7,'C Lib','C Library Functions',G+'C-Lib-Functions/',[],2);
-T(7,'C Games','C By Games',G+'C-By-Games/');
-T(7,'Animate','FCP2 Animations · DNS, Firewall & Vulnerabilities',G+'FCP2-animations/');
-T(7,'Agent','Agentic Calculator Application','https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/');
-T(7,'C-Mental-Model','C Programming Mental Model',G+'C-Mental-Model/');
-const key={};N.forEach((n,i)=>{n.id=i;key[n.s]=i});
-const hub=g=>1+g;
-const E=[];const ed=(a,b,t)=>E.push({a,b,t});
-groups.forEach((_,g)=>ed(0,hub(g),'h'));
-N.forEach(n=>{if(n.k=='v'||n.k=='t')ed(hub(n.g),n.id,'m')});
-for(let g=0;g<6;g++){const m=N.filter(n=>n.k=='v'&&n.g==g);for(let i=1;i<m.length;i++)ed(m[i-1].id,m[i].id,'s')}
-[['Agents','Agent'],['8.1','Debug Q'],['2','Animate'],['3.0','Overview'],['7.1','C Lib'],['10','C Games'],['15','C Skill'],['15','FCP Skill'],['12','Problems'],['5.1','Language'],['9.1','Concept Q'],['9.∞','Adv Q'],['Lab','Hack 1'],['4','Hack 1'],['Hack 1','Hack 2'],['Hack 2','Hack 3'],['Concept Q','Adv Q'],['Overview','C Lib'],['Overview','All']].forEach(p=>ed(key[p[0]],key[p[1]],'x'));
-const adj=N.map(()=>new Set());E.forEach(e=>{adj[e.a].add(e.b);adj[e.b].add(e.a)});
-N.forEach(n=>{n.r=n.k=='r'?26:n.k=='h'?16:n.k=='t'?9:7.5;n.col=n.k=='r'?'#7cf0d0':groups[n.g][1]});
-
-// Deterministic, collision-free layout: each cluster is a "flower" (hub + members on a ring); clusters sit on an ellipse and are then relaxed apart.
-function layout(){
- const S=86,cl=groups.map((_,g)=>{const m=N.filter(n=>n.g==g&&n.k!='h'),n=m.length,arc=Math.min(5.3,(n-1)*1.05),r=Math.max(112,S*(n-1)/arc);return{g,m,r,arc,e:r+50,x:0,y:0}});
- const pad=40,R=cl.reduce((a,c)=>a+2*c.e+pad,0)/(2*Math.PI)*1.05;let a=-Math.PI/2;
- cl.forEach(c=>{const w=(2*c.e+pad)/(R*2*Math.PI)*2*Math.PI;c.x=Math.cos(a+w/2)*R*1.35;c.y=Math.sin(a+w/2)*R;a+=w});
- for(let it=0;it<600;it++){cl.forEach((c,i)=>{cl.forEach((d,j)=>{if(j<=i)return;let dx=d.x-c.x,dy=d.y-c.y,l=Math.hypot(dx,dy)||1,m=c.e+d.e+14;if(l<m){const f=(m-l)/2/l;c.x-=dx*f;c.y-=dy*f;d.x+=dx*f;d.y+=dy*f}});
-  const l=Math.hypot(c.x,c.y),m=c.e+110;if(l<m){c.x*=m/l;c.y*=m/l}})}
- cl.forEach(c=>{const h=N[hub(c.g)];h.tx=c.x;h.ty=c.y;h.lu=[0,1];const ph=Math.atan2(c.y,c.x),n=c.m.length;
-  c.m.forEach((m,i)=>{const th=n>1?ph-c.arc/2+i*c.arc/(n-1):ph;m.tx=c.x+Math.cos(th)*c.r;m.ty=c.y+Math.sin(th)*c.r;m.lu=[Math.cos(th),Math.sin(th)]})});
- N[0].tx=N[0].ty=0;N.forEach(n=>{n.x=0;n.y=0})}
-layout();
-
-const cv=document.getElementById('cv'),cx=cv.getContext('2d'),$=id=>document.getElementById(id);
-let W=0,H=0,dpr=1,cam={x:0,y:0,k:1},dirty=1,sel=null,hov=null,qs='',off=new Set(),anim=1;
-function resize(){const r=cv.getBoundingClientRect();dpr=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;dirty=1}
-function fit(){const vis=N.filter(n=>!off.has(n.g)||n.k=='r');let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;vis.forEach(n=>{x0=Math.min(x0,n.tx-40);x1=Math.max(x1,n.tx+40);y0=Math.min(y0,n.ty-30);y1=Math.max(y1,n.ty+30)});
- const k=Math.min(W/(x1-x0+60),H/(y1-y0+60),1.8);cam.k=k;cam.x=W/2-(x0+x1)/2*k;cam.y=H/2-(y0+y1)/2*k;dirty=1}
-function step(){anim=0;N.forEach(n=>{const dx=n.tx-n.x,dy=n.ty-n.y;if(Math.abs(dx)+Math.abs(dy)>.3){n.x+=dx*.11;n.y+=dy*.11;anim=1}else{n.x=n.tx;n.y=n.ty}})}
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-function alive(n){return n.k=='r'||!off.has(n.g)}
-function lit(n){if(!alive(n))return 0;let ok=1;if(sel!=null)ok=n.id==sel||adj[sel].has(n.id);if(ok&&qs)ok=match(n);return ok}
-function match(n){return (n.s+' '+n.t).toLowerCase().includes(qs)}
-function draw(){cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
- const fg=css('--fg'),ed_=css('--edge'),bg=css('--bg');cx.setTransform(dpr*cam.k,0,0,dpr*cam.k,dpr*cam.x,dpr*cam.y);const k=cam.k;
- E.forEach(e=>{const a=N[e.a],b=N[e.b];if(!alive(a)||!alive(b))return;const on=sel!=null&&(e.a==sel||e.b==sel);let al=sel!=null?(on?1:.06):(qs?(lit(a)&&lit(b)?.7:.05):1);
-  cx.globalAlpha=al*(e.t=='h'?.55:e.t=='m'?.3:e.t=='s'?.65:.6);cx.lineWidth=(on?2.4:e.t=='x'?1.6:1.1)/k;cx.strokeStyle=e.t=='x'?css('--acc'):(e.t=='h'?ed_:groups[(a.g!=null?a.g:b.g)][1]);
-  cx.setLineDash(e.t=='x'?[5/k,4/k]:[]);cx.beginPath();cx.moveTo(a.x,a.y);if(e.t=='x'){const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,h=N[hub(a.g)],same=a.g==b.g,px=same?h.x:0,py=same?h.y:0,f=same?.4:.5;cx.quadraticCurveTo(mx+(px-mx)*f,my+(py-my)*f,b.x,b.y)}else cx.lineTo(b.x,b.y);cx.stroke()});
- cx.setLineDash([]);
- N.forEach(n=>{if(!alive(n))return;const l=lit(n),isH=hov==n.id||sel==n.id;cx.globalAlpha=l?1:.13;const r=n.r*(isH?1.3:1);
-  cx.fillStyle=n.col;cx.shadowColor=n.col;cx.shadowBlur=(isH?26:n.k=='v'?7:12)*(l?1:0);
-  cx.beginPath();if(n.k=='t'){cx.moveTo(n.x,n.y-r*1.2);cx.lineTo(n.x+r*1.2,n.y);cx.lineTo(n.x,n.y+r*1.2);cx.lineTo(n.x-r*1.2,n.y);cx.closePath()}else cx.arc(n.x,n.y,r,0,7);cx.fill();cx.shadowBlur=0;
-  if(sel==n.id||(qs&&match(n)&&n.k!='h')){cx.strokeStyle=fg;cx.lineWidth=2/k;cx.stroke()}
-  const fs=(n.k=='r'?15:n.k=='h'?12.5:10.5)/k;cx.font=(n.k=='v'?'600 ':'700 ')+fs+'px "Space Grotesk",system-ui,sans-serif';cx.textAlign='center';
-  if(n.k=='r'){cx.fillStyle='#08101e';cx.textBaseline='middle';cx.fillText('FCP',n.x,n.y+.5)}
-  else{cx.fillStyle=fg;const u=n.lu,o=n.r*1.25+4/k;
-   if(n.k=='h'){cx.textBaseline='top';hl(n.s).forEach((t,i)=>cx.fillText(t,n.x,n.y+n.r+4/k+i*fs*1.15))}
-   else{cx.textAlign=u[0]>.4?'left':u[0]<-.4?'right':'center';cx.textBaseline=Math.abs(u[0])>.4?'middle':(u[1]>0?'top':'bottom');cx.fillText(n.s,n.x+u[0]*o,n.y+u[1]*o)}}});
- cx.globalAlpha=1}
-function hl(t){if(t.length<=11)return[t];const m=t.length/2;let b=0,d=1e9;[...t].forEach((c,i)=>{if(c==' '&&Math.abs(i-m)<d){d=Math.abs(i-m);b=i}});return[t.slice(0,b),t.slice(b+1)]}
-function loop(){if(anim){step();dirty=1}if(dirty){draw();dirty=0}requestAnimationFrame(loop)}
-// interaction
-const P=new Map();let dragN=null,pan=null,mv=0,pd=0;
-const wp=(x,y)=>{const r=cv.getBoundingClientRect();return[(x-r.left-cam.x)/cam.k,(y-r.top-cam.y)/cam.k]};
-function hit(e){const[x,y]=wp(e.clientX,e.clientY);let b=null,bd=1e9;N.forEach(n=>{if(!alive(n)||!lit(n)&&sel==null&&0)return;const d=Math.hypot(n.x-x,n.y-y);if(d<n.r*1.6+4/cam.k&&d<bd){bd=d;b=n}});return b}
-function zoomAt(f,sx,sy){const k=Math.min(4,Math.max(.25,cam.k*f)),r=k/cam.k;cam.x=sx-(sx-cam.x)*r;cam.y=sy-(sy-cam.y)*r;cam.k=k;dirty=1}
-const pdist=()=>{const a=[...P.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])};
-cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,[e.clientX,e.clientY]);mv=0;
- if(P.size==2){pd=pdist();dragN=null;pan=null;return}
- const n=hit(e);if(n&&n.k!='r'){dragN=n}else pan=[e.clientX,e.clientY,cam.x,cam.y];cv.style.cursor='grabbing'});
-cv.addEventListener('pointermove',e=>{
- if(!P.has(e.pointerId)){const n=hit(e);if(n?n.id!=hov:hov!=null){hov=n?n.id:null;dirty=1;cv.style.cursor=n?'pointer':'grab'}tip(n,e);return}
- const o=P.get(e.pointerId);P.set(e.pointerId,[e.clientX,e.clientY]);
- if(P.size==2){const d=pdist(),r=cv.getBoundingClientRect(),a=[...P.values()];zoomAt(d/pd,(a[0][0]+a[1][0])/2-r.left,(a[0][1]+a[1][1])/2-r.top);pd=d;mv=9;return}
- mv+=Math.abs(e.clientX-o[0])+Math.abs(e.clientY-o[1]);
- if(dragN&&mv>4){const[x,y]=wp(e.clientX,e.clientY);dragN.x=dragN.tx=x;dragN.y=dragN.ty=y;dirty=1}
- else if(pan){cam.x=pan[2]+e.clientX-pan[0];cam.y=pan[3]+e.clientY-pan[1];dirty=1}});
-const up=e=>{P.delete(e.pointerId);cv.style.cursor='grab';if(mv<=4&&P.size==0){if(dragN)pick(dragN.id);else if(pan)pick(null)}
- dragN=null;pan=null;if(P.size==1)pd=0};
-cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
-cv.addEventListener('pointerleave',()=>{tip(null)});
-cv.addEventListener('wheel',e=>{e.preventDefault();const r=cv.getBoundingClientRect();zoomAt(Math.exp(-e.deltaY*.0015),e.clientX-r.left,e.clientY-r.top)},{passive:false});
-function tip(n,e){const t=$('tip');if(!n||n.k=='r'){t.style.display='none';return}const r=cv.getBoundingClientRect();
- t.innerHTML=esc(n.t)+'<small>'+(n.k=='v'?'▶ Lecture video':n.k=='t'?'◆ Tool / app':'Category · '+members(n.g)+' items')+'</small>';t.style.display='block';
- t.style.left=Math.min(e.clientX-r.left+14,r.width-270)+'px';t.style.top=(e.clientY-r.top+14)+'px'}
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const members=g=>N.filter(n=>n.g==g&&(n.k=='v'||n.k=='t')).length;
-// panel
-function pick(id){sel=id;const p=$('panel');dirty=1;if(id==null){p.style.display='none';return}
- const n=N[id],gc=n.col;let h='<button class="x" aria-label="Close" onclick="pick(null)">×</button>';
- h+='<div class="tag"><i style="background:'+gc+'"></i>'+(n.k=='r'?'Course':n.k=='v'?'Lecture video · '+groups[n.g][0]:n.k=='t'?'Tool · '+groups[n.g][0]:'Category')+'</div><h2>'+esc(n.t)+'</h2>';
- if(n.u){h+='<a class="open" href="'+n.u+'" target="_blank" rel="noopener noreferrer">'+(n.k=='v'?'▶ Watch on YouTube':'Open tool ↗')+'</a><div class="url">'+esc(n.u)+'</div>'}
- if(n.n)h+='<div class="note">🔗 '+n.n+' duplicate listings merged into this one node'+(n.al&&n.al.length?' — listed as: '+n.al.map(esc).join(', '):'')+'.</div>';
- if(n.k=='h')h+='<div class="note">'+members(n.g)+' resources in this cluster. Click one below to explore.</div>';
- const nb=[...adj[id]].map(i=>N[i]).filter(m=>m.k!='r');
- if(nb.length){h+='<h3>Connected ('+nb.length+')</h3><div class="nb">'+nb.map(m=>'<button onclick="pick('+m.id+')" style="border-left:3px solid '+m.col+'">'+(m.k=='v'?'▶ ':m.k=='t'?'◆ ':'')+esc(m.s)+'</button>').join('')+'</div>'}
- p.innerHTML=h;p.style.display='block';p.scrollTop=0}
-// chips, search, dialog
-const nv=N.filter(n=>n.k=='v').length,nt=N.filter(n=>n.k=='t').length,dups=N.reduce((a,n)=>a+(n.n?n.n-1:0),0);
-$('dupBtn').textContent='✓ '+dups+' duplicates merged';
-$('chips').innerHTML='<div class="chip" style="cursor:default">'+nv+' videos · '+nt+' tools · '+(nv+nt)+' unique links</div>'+groups.map((g,i)=>'<button class="chip" data-g="'+i+'"><i style="background:'+g[1]+'"></i>'+g[0]+' <b>'+members(i)+'</b></button>').join('');
-$('chips').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;const g=+b.dataset.g;off.has(g)?off.delete(g):off.add(g);b.classList.toggle('off');if(sel!=null&&!alive(N[sel]))pick(null);dirty=1});
-$('q').addEventListener('input',e=>{qs=e.target.value.trim().toLowerCase();dirty=1});
-$('q').addEventListener('keydown',e=>{if(e.key=='Enter'&&qs){const m=N.find(n=>n.k!='r'&&n.k!='h'&&alive(n)&&match(n));if(m)pick(m.id)}});
-addEventListener('keydown',e=>{if(e.key=='/'&&document.activeElement!=$('q')){e.preventDefault();$('q').focus()}if(e.key=='Escape'){pick(null);$('q').value='';qs='';$('q').blur()}});
-$('zi').onclick=()=>zoomAt(1.3,W/2,H/2);$('zo').onclick=()=>zoomAt(1/1.3,W/2,H/2);$('zf').onclick=fit;
-$('dupBtn').onclick=()=>{const d=$('dlg'),ms=N.filter(n=>n.n);
- d.innerHTML='<h2 style="margin:0 0 4px">Duplicates resolved</h2><div class="sub">The file held '+(nv+nt+dups)+' links; '+dups+' repeats were merged, leaving '+(nv+nt)+' unique nodes. Every original link is still in the graph.</div><table><tr><th>Node</th><th>Listings</th><th>Appeared as</th></tr>'+ms.map(n=>'<tr><td><a href="#" style="color:var(--acc)" onclick="$(\'dlg\').close();pick('+n.id+');return false">'+esc(n.t)+'</a></td><td>'+n.n+'×</td><td>'+(n.al&&n.al.length?n.al.map(esc).join('; '):'Same title')+'</td></tr>').join('')+'</table><button class="btn" onclick="$(\'dlg\').close()">Close</button>';d.showModal()};
-addEventListener('resize',()=>{resize();fit()});
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>dirty=1);
-resize();fit();loop();
+const Y=id=>'https://youtu.be/'+id, G=u=>'https://rms-sof.github.io/'+u+'/', S=id=>'https://script.google.com/macros/s/'+id+'/exec';
+const V=[
+["Computer basics","#2563eb",[["0 Computer Programming","VeCdA5cO3Rw"],["0.1 Programming Process","SQoHr5DYUo4"],["1 Hardware & Software","6Q1Id-HrZkI"],["2 Internet & Cyber Security","HVWoo8sCMKI"]]],
+["Starting with C","#0891b2",[["3.0 Intro to C","51kksOUUmlo"],["3.1 More Examples","jrzrPzyg4LI"],["3.2 C Introduction","mtg4xNfZsUc"],["3.3 Intro (part 4)","lD48EUaclkY"],["4 Practice Programs","uvgGJCIvlF8"],["4.1 Data Types & Science Apps","nicoBWmio2c"],["5.1 C as a Language","CM2lElJ8ZaA"]]],
+["Flow & functions","#16a34a",[["6 Control Flow, Arrays, Functions","t872IwqYk4w"],["6.1 Recursion","xRvYGRDi4qs"],["9.3.1 Loops & 1-D Array","UEVa-PDFV8M"],["7.1 Strings","ivlKbkR5Yg8"]]],
+["Memory & data","#d97706",[["7.2 Pointers & Dynamic Memory","VssWs7I2dXo"],["8 Structure, Union, Files","2QbYiLB0Y4I"],["8.1 Safe Programming & Debugging","2W-1T0ZZqcU"]]],
+["Textbook chapters","#7c3aed",[["9.1 Ch 1 & 2","Hm4Q1k1FaWU"],["9.2 Ch 3 & 4","IDZJB2EttvE"],["9.3 Ch 8 & 13","WuM86AieAYw"],["9.∞ Cryptic C","cHRr4-HrlUs"]]],
+["Skills & mindset","#db2777",[["10 Gamification of C","Oft0dSIZO0Y"],["12 Programming Skills","-8TTk8nSE74"],["13 Ganesha Wisdom","HiLVD-i8GWM"],["14 Challenges in Learning C","hP1gV1oD4J4"],["15 Exercise & Tests","2lFaajGl928"],["Lab Information","GhhRnwF_nsk"],["Calculator using Agents","o7-KpNEz2O0"]]]
+].map(([t,c,l])=>[t,c,l.map(([a,id])=>[a,Y(id)]),'vid']);
+const T=[
+["Tests & quizzes","#e11d48",[["C Skill Test",G('C-Skill-Test')],["FCP Skill Test",G('FCP-skill-Test')],["Problem Solving Test",G('Problem-Solving-Skill-Test')],["Concept Quiz",S('AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh')],["Advanced Concept Quiz",S('AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B')],["Debug-Code Quiz",S('AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g')],["Language Proficiency",G('Language-Profeciency-Tester')]]],
+["Explore & visualise","#0d9488",[["C Overview",G('C-Programming')],["Mental Model Builder",G('C-Mental-Model')],["C Library Functions",G('C-Lib-Functions')],["Learn C by Games",G('C-By-Games')],["DNS & Firewall Animations",G('FCP2-animations')],["Agentic Calculator","https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/"]]],
+["Classroom & hackathons","#ca8a04",[["Student Picker",G('Coronation')],["Hackathon 1 (simple)",S('AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ')],["Hackathon 2 (simple)",S('AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP')],["Hackathon 3 (difficult)",S('AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ')],["Supporting Tool",S('AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK')]]]
+].map(([t,c,l])=>[t,c,l,'tool']);
+const m=document.getElementById('m'),svg=document.getElementById('s'),els=[];
+function build(col,data){data.forEach(([t,c,l,k])=>{
+ const d=document.createElement('section');d.className='cl '+k;d.style.setProperty('--c',c);d.style.flex=(1+l.length*.9)+' 1 0';
+ d.innerHTML='<h2>'+t+'</h2><div class="chips">'+l.map(([a,u])=>'<a href="'+u+'" target="_blank" rel="noopener">'+a+'</a>').join('')+'</div>';
+ col.appendChild(d);els.push({d,c,left:col.id==='L'});
+ d.onmouseenter=()=>focus(d);d.onmouseleave=()=>focus(null);});}
+build(document.getElementById('L'),V);build(document.getElementById('R'),T);
+document.getElementById('n').textContent=V.reduce((a,x)=>a+x[2].length,0)+' videos and '+T.reduce((a,x)=>a+x[2].length,0)+' tools';
+function draw(){
+ svg.innerHTML='';const mb=m.getBoundingClientRect(),hb=document.getElementById('h').getBoundingClientRect();
+ if(innerWidth<=900)return;
+ els.forEach(e=>{const b=e.d.getBoundingClientRect(),y=b.top+b.height/2-mb.top,
+  x1=e.left?b.right-mb.left:b.left-mb.left,x2=e.left?hb.left-mb.left+6:hb.right-mb.left-6,y2=hb.top+hb.height/2-mb.top,mx=(x1+x2)/2;
+  const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d','M'+x1+' '+y+' C'+mx+' '+y+' '+mx+' '+y2+' '+x2+' '+y2);p.setAttribute('stroke',e.c);svg.appendChild(p);e.p=p;});}
+function focus(d){m.classList.toggle('f',!!d);els.forEach(e=>{const on=e.d===d;e.d.classList.toggle('on',on);e.p&&e.p.classList.toggle('on',on);});}
+addEventListener('resize',draw);document.fonts&&document.fonts.ready.then(draw);draw();setTimeout(draw,300);
 </script>
 </body>
 </html>
