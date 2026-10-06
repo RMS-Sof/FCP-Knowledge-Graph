@@ -2,79 +2,182 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FCP Knowledge Graph(c) RMS</title>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCP Knowledge Graph</title>
 <style>
-:root{--bg:#eef2f7;--card:#fff;--ink:#14202e;--mute:#5b6b7e;--line:#c9d3df;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1622;--card:#17212f;--ink:#e8eef6;--mute:#8fa1b6;--line:#2b3a4e}}
-:root[data-theme="dark"]{--bg:#0e1622;--card:#17212f;--ink:#e8eef6;--mute:#8fa1b6;--line:#2b3a4e}
-*{box-sizing:inherit}
-html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--ink);font:13px/1.2 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;padding:10px 16px 8px}
-header{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 8px}
-h1{font-size:18px;font-weight:800;margin:0;letter-spacing:-.01em}
-header span{color:var(--mute);font-size:12px}
-main{flex:1;min-height:0;position:relative;display:grid;grid-template-columns:1fr 170px 1fr;gap:0 clamp(40px,7vw,110px)}
-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-svg path{fill:none;stroke-width:2;opacity:.55;transition:opacity .2s,stroke-width .2s}
-svg path.on{opacity:1;stroke-width:3.5}
-.col{display:flex;flex-direction:column;gap:8px;min-height:0;position:relative;z-index:1}
-.cl{background:var(--card);border-radius:12px;border-left:5px solid var(--c);padding:8px 10px;display:flex;flex-direction:column;justify-content:center;gap:6px;min-height:0;transition:opacity .2s,transform .2s}
-main.f .cl:not(.on){opacity:.35}
-.cl h2{margin:0;font-size:13px;font-weight:800;color:var(--c)}
-.chips{display:flex;flex-wrap:wrap;gap:5px}
-.chips a{color:var(--ink);text-decoration:none;font-size:12px;font-weight:600;padding:4px 9px;border-radius:99px;border:1.5px solid var(--line);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
-.chips a::before{content:"";width:6px;height:6px;background:var(--c);border-radius:50%}
-.tool .chips a::before{border-radius:1px;transform:rotate(45deg)}
-.chips a:hover,.chips a:focus-visible{background:var(--c);border-color:var(--c);color:#fff;outline:none}
-.hub{align-self:center;justify-self:center;width:170px;height:170px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-content:center;text-align:center;z-index:2;position:relative}
-.hub b{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.hub small{font-size:11px;padding:4px 14px 0;opacity:.8}
-.side{position:absolute;top:calc(50% + 95px);font-size:12px;color:var(--mute);z-index:2}
-@media (max-width:900px){body{height:auto}main{display:block}svg{display:none}.col{margin-bottom:8px}.hub{display:none}html,body{height:auto}}
+:root{--bg:#f2f5f3;--ink:#14213d;--mute:#5b6577;--card:#fff;--line:#c9d1cc;
+--c1:#0e7c7b;--c2:#b86e00;--c3:#7a3e9d;--c1t:#e3f2f1;--c2t:#fbeed8;--c3t:#f0e6f6}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1624;--ink:#e8edf5;--mute:#9aa6bb;--card:#18223a;--line:#33405c;
+--c1:#3cc0bd;--c2:#f0a63a;--c3:#c08ae3;--c1t:#12302f;--c2t:#33260f;--c3t:#2a1a38}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line)}
+h1{font:600 20px/1.2 Georgia,"Times New Roman",serif;margin:0}
+.ctl{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+#wrap{position:relative;max-width:1400px;margin:0 auto;padding:24px}
+#edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#edges path{fill:none;stroke-width:2;opacity:.55}
+#grid{position:relative;display:grid;grid-template-columns:170px 220px 1fr;column-gap:56px;row-gap:28px;align-items:start}
+#root{grid-column:1;grid-row:1/4;align-self:center;background:var(--ink);color:var(--bg);border-radius:50%;width:170px;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px}
+#root b{font:700 28px/1 Georgia,serif}
+#root span{font-size:12px;margin-top:6px;opacity:.85}
+.cat{grid-column:2;position:sticky;top:12px;border:2px solid var(--col);background:var(--tint);border-radius:12px;padding:14px}
+.cat h2{margin:0 0 4px;font-size:17px;color:var(--col)}
+.cat p{margin:0;font-size:13px;color:var(--mute)}
+.subs{grid-column:3;display:flex;flex-direction:column;gap:10px}
+.sub{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--col);border-radius:8px}
+.sub>button{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:none;padding:10px 14px;font-weight:600;text-align:left}
+.sub>button small{font-weight:400;color:var(--mute)}
+.leaves{display:none;flex-wrap:wrap;gap:8px;padding:2px 14px 14px}
+.sub.open .leaves{display:flex}
+.sub.open>button .chev{transform:rotate(90deg)}
+.chev{display:inline-block;transition:transform .15s;margin-right:8px;color:var(--col)}
+.leaves a{display:inline-flex;gap:6px;align-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--col);background:var(--tint);border-radius:999px;padding:4px 12px;font-size:14px}
+.leaves a:hover{background:var(--col);color:var(--card)}
+.leaves a i{font-style:normal;font-size:11px;color:var(--col)}
+.leaves a:hover i{color:inherit}
+.hide{display:none!important}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:8px 24px 28px}
+footer a{color:var(--mute)}
+@media(max-width:800px){
+ #grid{grid-template-columns:1fr;row-gap:12px}
+ #root{grid-column:1;grid-row:auto;border-radius:12px;width:auto;height:auto;flex-direction:row;gap:10px;justify-content:center}
+ .cat,.subs{grid-column:1}.cat{position:static;margin-top:14px}
+ #edges{display:none}
+}
 </style>
 </head>
 <body>
-<header><h1>FCP knowledge graph : Designed by Prof. Rahul M. Samant</h1><span id="n"></span></header>
-<main id="m">
-<svg id="s"></svg>
-<div class="col" id="L"></div>
-<div class="hub" id="h"><b>FCP</b><small>Fundamentals of Computer Programming</small></div>
-<div class="col" id="R"></div>
-</main>
+<header>
+ <h1>FCP Knowledge Graph By Prof. Rahul M. Samant</h1>
+ <div class="ctl" role="group" aria-label="Controls">
+  <button data-f="all" aria-pressed="true">All</button>
+  <button data-f="v" aria-pressed="false">Videos</button>
+  <button data-f="t" aria-pressed="false">Tools</button>
+  <button id="exp">Expand all</button>
+  <button id="col">Collapse all</button>
+ </div>
+</header>
+<div id="wrap">
+ <svg id="edges" aria-hidden="true"></svg>
+ <div id="grid"></div>
+</div>
+<footer>Prof. Rahul M. Samant · Fundamentals of Computer Programming ·  </footer>
+
 <script>
-const Y=id=>'https://youtu.be/'+id, G=u=>'https://rms-sof.github.io/'+u+'/', S=id=>'https://script.google.com/macros/s/'+id+'/exec';
-const V=[
-["Computer basics","#2563eb",[["0 Computer Programming","VeCdA5cO3Rw"],["0.1 Programming Process","SQoHr5DYUo4"],["1 Hardware & Software","6Q1Id-HrZkI"],["2 Internet & Cyber Security","HVWoo8sCMKI"]]],
-["Starting with C","#0891b2",[["3.0 Intro to C","51kksOUUmlo"],["3.1 More Examples","jrzrPzyg4LI"],["3.2 C Introduction","mtg4xNfZsUc"],["3.3 Intro (part 4)","lD48EUaclkY"],["4 Practice Programs","uvgGJCIvlF8"],["4.1 Data Types & Science Apps","nicoBWmio2c"],["5.1 C as a Language","CM2lElJ8ZaA"]]],
-["Flow & functions","#16a34a",[["6 Control Flow, Arrays, Functions","t872IwqYk4w"],["6.1 Recursion","xRvYGRDi4qs"],["9.3.1 Loops & 1-D Array","UEVa-PDFV8M"],["7.1 Strings","ivlKbkR5Yg8"]]],
-["Memory & data","#d97706",[["7.2 Pointers & Dynamic Memory","VssWs7I2dXo"],["8 Structure, Union, Files","2QbYiLB0Y4I"],["8.1 Safe Programming & Debugging","2W-1T0ZZqcU"]]],
-["Textbook chapters","#7c3aed",[["9.1 Ch 1 & 2","Hm4Q1k1FaWU"],["9.2 Ch 3 & 4","IDZJB2EttvE"],["9.3 Ch 8 & 13","WuM86AieAYw"],["9.∞ Cryptic C","cHRr4-HrlUs"]]],
-["Skills & mindset","#db2777",[["10 Gamification of C","Oft0dSIZO0Y"],["12 Programming Skills","-8TTk8nSE74"],["13 Ganesha Wisdom","HiLVD-i8GWM"],["14 Challenges in Learning C","hP1gV1oD4J4"],["15 Exercise & Tests","2lFaajGl928"],["Lab Information","GhhRnwF_nsk"],["Calculator using Agents","o7-KpNEz2O0"]]]
-].map(([t,c,l])=>[t,c,l.map(([a,id])=>[a,Y(id)]),'vid']);
-const T=[
-["Tests & quizzes","#e11d48",[["C Skill Test",G('C-Skill-Test')],["FCP Skill Test",G('FCP-skill-Test')],["Problem Solving Test",G('Problem-Solving-Skill-Test')],["Concept Quiz",S('AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh')],["Advanced Concept Quiz",S('AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B')],["Debug-Code Quiz",S('AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g')],["Language Proficiency",G('Language-Profeciency-Tester')]]],
-["Explore & visualise","#0d9488",[["C Overview",G('C-Programming')],["Mental Model Builder",G('C-Mental-Model')],["C Library Functions",G('C-Lib-Functions')],["Learn C by Games",G('C-By-Games')],["DNS & Firewall Animations",G('FCP2-animations')],["Agentic Calculator","https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/"]]],
-["Classroom & hackathons","#ca8a04",[["Student Picker",G('Coronation')],["Hackathon 1 (simple)",S('AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ')],["Hackathon 2 (simple)",S('AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP')],["Hackathon 3 (difficult)",S('AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ')],["Supporting Tool",S('AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK')]]]
-].map(([t,c,l])=>[t,c,l,'tool']);
-const m=document.getElementById('m'),svg=document.getElementById('s'),els=[];
-function build(col,data){data.forEach(([t,c,l,k])=>{
- const d=document.createElement('section');d.className='cl '+k;d.style.setProperty('--c',c);d.style.flex=(1+l.length*.9)+' 1 0';
- d.innerHTML='<h2>'+t+'</h2><div class="chips">'+l.map(([a,u])=>'<a href="'+u+'" target="_blank" rel="noopener">'+a+'</a>').join('')+'</div>';
- col.appendChild(d);els.push({d,c,left:col.id==='L'});
- d.onmouseenter=()=>focus(d);d.onmouseleave=()=>focus(null);});}
-build(document.getElementById('L'),V);build(document.getElementById('R'),T);
-document.getElementById('n').textContent=V.reduce((a,x)=>a+x[2].length,0)+' videos and '+T.reduce((a,x)=>a+x[2].length,0)+' tools';
+const Y=id=>"https://youtu.be/"+id, G="https://rms-sof.github.io/";
+const S=u=>"https://script.google.com/macros/s/"+u+"/exec";
+const v=(t,id)=>({t,u:Y(id),k:"v"}), a=(t,u)=>({t,u,k:"t"});
+
+const DATA=[
+{name:"Subject Knowledge",note:"Syllabus lectures and the tools that support them",c:"c1",subs:[
+ {n:"Computing foundations",items:[v("0 Computer Programming","VeCdA5cO3Rw"),v("0.1 Programming Process","SQoHr5DYUo4"),v("1 TH1 Hardware & Software Fundamentals","6Q1Id-HrZkI"),v("2 TH2 Internet Architecture & Cyber Security","HVWoo8sCMKI"),a("DNS & Firewall Vulnerability Animations",G+"FCP2-animations/")]},
+ {n:"Introduction to C",items:[v("3.0 Introduction to C","51kksOUUmlo"),v("3.1 Introduction with more examples","jrzrPzyg4LI"),v("3.2 C Programming Introduction","mtg4xNfZsUc"),v("3.3 Introduction (part 4)","lD48EUaclkY"),v("4.1 Data Types & Scientific Apps","nicoBWmio2c"),v("5.1 C from a Linguistic Point of View","CM2lElJ8ZaA"),v("4 C Programs List for Practice","uvgGJCIvlF8"),a("C Programming Overview",G+"C-Programming/"),a("C Library Functions",G+"C-Lib-Functions/")]},
+ {n:"Control flow, arrays & functions",items:[v("6 Control Flow, Arrays & Functions","t872IwqYk4w"),v("6.1 Recursion","xRvYGRDi4qs"),v("Extra 9.3.1 Loops & 1-D Array","UEVa-PDFV8M")]},
+ {n:"Strings & pointers",items:[v("7.1 Strings","ivlKbkR5Yg8"),v("7.2 Pointers by Programming","VBZnOh2rSxs"),v("7.2 Pointers & Dynamic Memory","VssWs7I2dXo")]},
+ {n:"Structures, unions & files",items:[v("8 Structure, Union & File Handling","2QbYiLB0Y4I"),v("8.1 Structures by Programming","mdcTgBRHJ4U")]},
+ {n:"Chapter-wise revision",items:[v("9.1 Chapters 1 & 2","Hm4Q1k1FaWU"),v("9.2 Chapters 3 & 4","IDZJB2EttvE"),v("9.3 Chapters 8 & 13","WuM86AieAYw")]}
+]},
+{name:"Beyond Syllabus",note:"Skills, mindset and new ideas outside the exam scope",c:"c2",subs:[
+ {n:"Programming craft",items:[v("8.1 Safe Programming & Debugging","2W-1T0ZZqcU"),v("9.∞ Cryptic C","cHRr4-HrlUs"),v("12 Programming Skills","-8TTk8nSE74")]},
+ {n:"Mindset & learning",items:[v("13 Lord Ganesha Wisdom & Programming Skills","HiLVD-i8GWM"),v("14 Challenges in Learning C Programming","hP1gV1oD4J4")]},
+ {n:"Learning through games",items:[v("10 Gamification of C Programming","Oft0dSIZO0Y"),a("C by Games",G+"C-By-Games/")]},
+ {n:"Agentic AI",items:[{t:"Building a Calculator using Agents",u:Y("o7-KpNEz2O0"),k:"v"},a("Agentic Calculator App","https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/")]}
+]},
+{name:"Competency Development Tools & Activities",note:"Tests, quizzes, hackathons and classroom activities",c:"c3",subs:[
+ {n:"Skill tests",items:[v("15 Exercise & Tests","2lFaajGl928"),a("C Programming Skill Test",G+"C-Skill-Test/"),a("FCP Skill Test",G+"FCP-skill-Test/"),a("Problem Solving Skill Test",G+"Problem-Solving-Skill-Test/"),a("Language Proficiency Tester",G+"Language-Profeciency-Tester/")]},
+ {n:"Quizzes",items:[a("Concept Quiz",S("AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh")),a("Advanced Concept Quiz",S("AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B")),a("C Debug-Code Quiz",S("AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g"))]},
+ {n:"Hackathons",items:[a("Hackathon 1 (simple)",S("AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ")),a("Hackathon 2 (simple)",S("AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP")),a("Hackathon 3 (difficult)",S("AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ"))]},
+ {n:"Classroom & lab",items:[a("Student Picker",G+"Coronation/"),v("Lab Information","GhhRnwF_nsk"),a("Supporting Tool",S("AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK"))]}
+]}
+];
+
+const grid=document.getElementById("grid"), svg=document.getElementById("edges"), wrap=document.getElementById("wrap");
+let filter="all";
+
+grid.insertAdjacentHTML("beforeend",'<div id="root"><b>FCP</b><span>Fundamentals of Computer Programming</span></div>');
+
+DATA.forEach((cat,i)=>{
+  const row=i+1, st=`--col:var(--${cat.c});--tint:var(--${cat.c}t)`;
+  const c=document.createElement("div");
+  c.className="cat";c.id="cat"+i;c.style.cssText=st+`;grid-row:${row}`;
+  c.innerHTML=`<h2>${i+1}. ${cat.name}</h2><p>${cat.note}</p>`;
+  const s=document.createElement("div");
+  s.className="subs";s.style.cssText=st+`;grid-row:${row}`;
+  cat.subs.forEach((sub,j)=>{
+    const d=document.createElement("div");
+    d.className="sub";d.id=`sub${i}_${j}`;
+    d.innerHTML=`<button aria-expanded="false"><span><span class="chev">▶</span>${sub.n}</span><small></small></button><div class="leaves"></div>`;
+    const L=d.querySelector(".leaves");
+    sub.items.forEach(it=>{
+      const l=document.createElement("a");
+      l.href=it.u;l.target="_blank";l.rel="noopener";l.dataset.k=it.k;
+      l.innerHTML=`<i>${it.k==="v"?"VIDEO":"TOOL"}</i>${it.t}`;
+      L.appendChild(l);
+    });
+    d.querySelector("button").onclick=()=>toggle(d);
+    s.appendChild(d);
+  });
+  grid.append(c,s);
+});
+
+function toggle(d,force){
+  const o=force===undefined?!d.classList.contains("open"):force;
+  d.classList.toggle("open",o);
+  d.querySelector("button").setAttribute("aria-expanded",o);
+  draw();
+}
+
+function applyFilter(){
+  document.querySelectorAll(".sub").forEach(d=>{
+    let n=0;
+    d.querySelectorAll("a").forEach(l=>{
+      const show=filter==="all"||l.dataset.k===filter;
+      l.classList.toggle("hide",!show); if(show)n++;
+    });
+    d.classList.toggle("hide",n===0);
+    d.querySelector("small").textContent=n+(n===1?" item":" items");
+  });
+  draw();
+}
+
+document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{
+  filter=b.dataset.f;
+  document.querySelectorAll("[data-f]").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  applyFilter();
+});
+document.getElementById("exp").onclick=()=>{document.querySelectorAll(".sub").forEach(d=>toggle(d,true))};
+document.getElementById("col").onclick=()=>{document.querySelectorAll(".sub").forEach(d=>toggle(d,false))};
+
+function curve(p,q,color){
+  const mx=(p.x+q.x)/2;
+  const e=document.createElementNS("http://www.w3.org/2000/svg","path");
+  e.setAttribute("d",`M${p.x},${p.y} C${mx},${p.y} ${mx},${q.y} ${q.x},${q.y}`);
+  e.setAttribute("stroke",color);svg.appendChild(e);
+}
 function draw(){
- svg.innerHTML='';const mb=m.getBoundingClientRect(),hb=document.getElementById('h').getBoundingClientRect();
- if(innerWidth<=900)return;
- els.forEach(e=>{const b=e.d.getBoundingClientRect(),y=b.top+b.height/2-mb.top,
-  x1=e.left?b.right-mb.left:b.left-mb.left,x2=e.left?hb.left-mb.left+6:hb.right-mb.left-6,y2=hb.top+hb.height/2-mb.top,mx=(x1+x2)/2;
-  const p=document.createElementNS('http://www.w3.org/2000/svg','path');
-  p.setAttribute('d','M'+x1+' '+y+' C'+mx+' '+y+' '+mx+' '+y2+' '+x2+' '+y2);p.setAttribute('stroke',e.c);svg.appendChild(p);e.p=p;});}
-function focus(d){m.classList.toggle('f',!!d);els.forEach(e=>{const on=e.d===d;e.d.classList.toggle('on',on);e.p&&e.p.classList.toggle('on',on);});}
-addEventListener('resize',draw);document.fonts&&document.fonts.ready.then(draw);draw();setTimeout(draw,300);
+  svg.innerHTML="";
+  if(innerWidth<=800)return;
+  const W=wrap.getBoundingClientRect(), root=document.getElementById("root").getBoundingClientRect();
+  const out=r=>({x:r.right-W.left,y:r.top+r.height/2-W.top}), inn=r=>({x:r.left-W.left,y:r.top+r.height/2-W.top});
+  DATA.forEach((cat,i)=>{
+    const col=getComputedStyle(document.documentElement).getPropertyValue("--"+cat.c).trim();
+    const cr=document.getElementById("cat"+i).getBoundingClientRect();
+    curve(out(root),inn(cr),col);
+    cat.subs.forEach((_,j)=>{
+      const d=document.getElementById(`sub${i}_${j}`);
+      if(d.classList.contains("hide"))return;
+      curve(out(cr),inn(d.getBoundingClientRect()),col);
+    });
+  });
+}
+new ResizeObserver(draw).observe(wrap);
+addEventListener("resize",draw);
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",draw);
+applyFilter();
 </script>
 </body>
 </html>
