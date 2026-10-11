@@ -1,183 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FCP Knowledge Graph</title>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FCP Concept Map (c) RMS</title>
 <style>
-:root{--bg:#f2f5f3;--ink:#14213d;--mute:#5b6577;--card:#fff;--line:#c9d1cc;
---c1:#0e7c7b;--c2:#b86e00;--c3:#7a3e9d;--c1t:#e3f2f1;--c2t:#fbeed8;--c3t:#f0e6f6}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1624;--ink:#e8edf5;--mute:#9aa6bb;--card:#18223a;--line:#33405c;
---c1:#3cc0bd;--c2:#f0a63a;--c3:#c08ae3;--c1t:#12302f;--c2t:#33260f;--c3t:#2a1a38}}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f4ef;--card:#fff;--ink:#1d2330;--mut:#667085;--ln:#b9b2a2;--vid:#b42318;--vbg:#fdecea;--tl:#0f766e;--tbg:#e3f5f2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11151c;--card:#1a202b;--ink:#e8eaef;--mut:#98a2b3;--ln:#3a4456;--vid:#fda29b;--vbg:#3a1c1a;--tl:#5eead4;--tbg:#12332f}}
+:root[data-theme="dark"]{--bg:#11151c;--card:#1a202b;--ink:#e8eaef;--mut:#98a2b3;--ln:#3a4456;--vid:#fda29b;--vbg:#3a1c1a;--tl:#5eead4;--tbg:#12332f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line)}
-h1{font:600 20px/1.2 Georgia,"Times New Roman",serif;margin:0}
-.ctl{display:flex;gap:8px;flex-wrap:wrap}
-button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer}
-button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-button:focus-visible,a:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
-#wrap{position:relative;max-width:1400px;margin:0 auto;padding:24px}
-#edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#edges path{fill:none;stroke-width:2;opacity:.55}
-#grid{position:relative;display:grid;grid-template-columns:170px 220px 1fr;column-gap:56px;row-gap:28px;align-items:start}
-#root{grid-column:1;grid-row:1/4;align-self:center;background:var(--ink);color:var(--bg);border-radius:50%;width:170px;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px}
-#root b{font:700 28px/1 Georgia,serif}
-#root span{font-size:12px;margin-top:6px;opacity:.85}
-.cat{grid-column:2;position:sticky;top:12px;border:2px solid var(--col);background:var(--tint);border-radius:12px;padding:14px}
-.cat h2{margin:0 0 4px;font-size:17px;color:var(--col)}
-.cat p{margin:0;font-size:13px;color:var(--mute)}
-.subs{grid-column:3;display:flex;flex-direction:column;gap:10px}
-.sub{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--col);border-radius:8px}
-.sub>button{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:none;padding:10px 14px;font-weight:600;text-align:left}
-.sub>button small{font-weight:400;color:var(--mute)}
-.leaves{display:none;flex-wrap:wrap;gap:8px;padding:2px 14px 14px}
-.sub.open .leaves{display:flex}
-.sub.open>button .chev{transform:rotate(90deg)}
-.chev{display:inline-block;transition:transform .15s;margin-right:8px;color:var(--col)}
-.leaves a{display:inline-flex;gap:6px;align-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--col);background:var(--tint);border-radius:999px;padding:4px 12px;font-size:14px}
-.leaves a:hover{background:var(--col);color:var(--card)}
-.leaves a i{font-style:normal;font-size:11px;color:var(--col)}
-.leaves a:hover i{color:inherit}
-.hide{display:none!important}
-footer{text-align:center;color:var(--mute);font-size:13px;padding:8px 24px 28px}
-footer a{color:var(--mute)}
-@media(max-width:800px){
- #grid{grid-template-columns:1fr;row-gap:12px}
- #root{grid-column:1;grid-row:auto;border-radius:12px;width:auto;height:auto;flex-direction:row;gap:10px;justify-content:center}
- .cat,.subs{grid-column:1}.cat{position:static;margin-top:14px}
- #edges{display:none}
-}
-</style>
-</head>
-<body>
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 "Segoe UI",system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--ln);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+h1{margin:0;font:700 17px Georgia,serif;flex:1;min-width:220px}
+h1 small{display:block;font:400 12px "Segoe UI",sans-serif;color:var(--mut)}
+input{padding:7px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--ink);min-width:200px}
+button{font:inherit;cursor:pointer;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 12px}
+.leg{display:flex;gap:14px;font-size:12.5px;color:var(--mut);padding:8px 16px}
+.map{display:flex;align-items:center;padding:8px 16px 24px;max-width:1500px;margin:auto}
+.root{flex:none;width:130px;text-align:center;padding:18px 10px;border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;justify-content:center;background:var(--ink);color:var(--bg);font:700 15px Georgia,serif}
+.root small{font:400 11px "Segoe UI",sans-serif;opacity:.8}
+.brs{flex:1;margin-left:28px;border-left:2px solid var(--ln);min-width:0}
+.br{position:relative;display:flex;gap:14px;padding:10px 0 10px 30px}
+.br::before{content:"";position:absolute;left:0;top:28px;width:30px;border-top:2px solid var(--ln)}
+.un{flex:none;width:170px;align-self:flex-start;padding:8px 10px;border-radius:10px;background:var(--card);border:2px solid var(--c);font-weight:700;font-size:13.5px;position:relative}
+.un::after{content:"";position:absolute;right:-14px;top:50%;width:14px;border-top:2px solid var(--ln)}
+.un span{display:block;font-weight:400;font-size:11.5px;color:var(--mut)}
+.it{flex:1;min-width:0;border-left:2px solid var(--ln);padding-left:12px;display:flex;flex-direction:column;gap:6px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.row i{font-style:normal;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);width:62px;flex:none}
+a.n{display:inline-block;padding:4px 10px;border-radius:999px;text-decoration:none;font-size:12.5px;border:1px solid transparent;transition:.12s}
+a.v{background:var(--vbg);color:var(--vid)}a.t{background:var(--tbg);color:var(--tl)}
+a.n:hover{transform:translateY(-1px);border-color:currentColor;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+a.n:visited{opacity:.65}
+.dim{opacity:.18;pointer-events:none}
+@media(max-width:900px){.map{flex-direction:column;align-items:stretch}.root{align-self:center;width:110px;margin-bottom:12px}.brs{margin-left:0;border-left:0}.br{flex-direction:column;padding-left:0}.br::before,.un::after{display:none}.un{width:100%}.it{border-left:0;padding-left:0}.row i{width:100%}}
+</style></head><body>
 <header>
- <h1>FCP Knowledge Graph By Prof. Rahul M. Samant</h1>
- <div class="ctl" role="group" aria-label="Controls">
-  <button data-f="all" aria-pressed="true">All</button>
-  <button data-f="v" aria-pressed="false">Videos</button>
-  <button data-f="t" aria-pressed="false">Tools</button>
-  <button id="exp">Expand all</button>
-  <button id="col">Collapse all</button>
- </div>
+<h1>FCP Teaching-Learning ·  Prof. Rahul M. Samant<small>FCP Knowledge Map · click any node to open it in a new tab · Concept Videos & Tools</small></h1>
+<input type="search" id="q" placeholder="Filter nodes…"><button id="th">◐</button>
 </header>
-<div id="wrap">
- <svg id="edges" aria-hidden="true"></svg>
- <div id="grid"></div>
-</div>
-<footer>Prof. Rahul M. Samant · Fundamentals of Computer Programming ·  </footer>
-
+<div class="leg"><span style="color:var(--vid)">▶ Lecture video (YouTube)</span><span style="color:var(--tl)">◆ Test / quiz / tool (GitHub page, etc.)</span></div>
+<div class="map"><div class="root">FCP<small>C Programming</small></div><div class="brs" id="m"></div></div>
 <script>
-const Y=id=>"https://youtu.be/"+id, G="https://rms-sof.github.io/";
-const S=u=>"https://script.google.com/macros/s/"+u+"/exec";
-const v=(t,id)=>({t,u:Y(id),k:"v"}), a=(t,u)=>({t,u,k:"t"});
-
-const DATA=[
-{name:"Subject Knowledge",note:"Syllabus lectures and the tools that support them",c:"c1",subs:[
- {n:"Computing foundations",items:[v("0 Computer Programming","VeCdA5cO3Rw"),v("0.1 Programming Process","SQoHr5DYUo4"),v("1 TH1 Hardware & Software Fundamentals","6Q1Id-HrZkI"),v("2 TH2 Internet Architecture & Cyber Security","HVWoo8sCMKI"),a("DNS & Firewall Vulnerability Animations",G+"FCP2-animations/")]},
- {n:"Introduction to C",items:[v("3.0 Introduction to C","51kksOUUmlo"),v("3.1 Introduction with more examples","jrzrPzyg4LI"),v("3.2 C Programming Introduction","mtg4xNfZsUc"),v("3.3 Introduction (part 4)","lD48EUaclkY"),v("4.1 Data Types & Scientific Apps","nicoBWmio2c"),v("5.1 C from a Linguistic Point of View","CM2lElJ8ZaA"),v("4 C Programs List for Practice","uvgGJCIvlF8"),a("C Programming Overview",G+"C-Programming/"),a("C Library Functions",G+"C-Lib-Functions/")]},
- {n:"Control flow, arrays & functions",items:[v("6 Control Flow, Arrays & Functions","t872IwqYk4w"),v("6.1 Recursion","xRvYGRDi4qs"),v("Extra 9.3.1 Loops & 1-D Array","UEVa-PDFV8M")]},
- {n:"Strings & pointers",items:[v("7.1 Strings","ivlKbkR5Yg8"),v("7.2 Pointers by Programming","VBZnOh2rSxs"),v("7.2 Pointers & Dynamic Memory","VssWs7I2dXo")]},
- {n:"Structures, unions & files",items:[v("8 Structure, Union & File Handling","2QbYiLB0Y4I"),v("8.1 Structures by Programming","mdcTgBRHJ4U")]},
- {n:"Chapter-wise revision",items:[v("9.1 Chapters 1 & 2","Hm4Q1k1FaWU"),v("9.2 Chapters 3 & 4","IDZJB2EttvE"),v("9.3 Chapters 8 & 13","WuM86AieAYw")]}
-]},
-{name:"Beyond Syllabus",note:"Skills, mindset and new ideas outside the exam scope",c:"c2",subs:[
- {n:"Programming craft",items:[v("8.1 Safe Programming & Debugging","2W-1T0ZZqcU"),v("9.∞ Cryptic C","cHRr4-HrlUs"),v("12 Programming Skills","-8TTk8nSE74")]},
- {n:"Mindset & learning",items:[v("13 Lord Ganesha Wisdom & Programming Skills","HiLVD-i8GWM"),v("14 Challenges in Learning C Programming","hP1gV1oD4J4")]},
- {n:"Learning through games",items:[v("10 Gamification of C Programming","Oft0dSIZO0Y"),a("C by Games",G+"C-By-Games/")]},
- {n:"Agentic AI",items:[{t:"Building a Calculator using Agents",u:Y("o7-KpNEz2O0"),k:"v"},a("Agentic Calculator App","https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/")]}
-]},
-{name:"Competency Development Tools & Activities",note:"Tests, quizzes, hackathons and classroom activities",c:"c3",subs:[
- {n:"Skill tests",items:[v("15 Exercise & Tests","2lFaajGl928"),a("C Programming Skill Test",G+"C-Skill-Test/"),a("FCP Skill Test",G+"FCP-skill-Test/"),a("Problem Solving Skill Test",G+"Problem-Solving-Skill-Test/"),a("Language Proficiency Tester",G+"Language-Profeciency-Tester/")]},
- {n:"Quizzes",items:[a("Concept Quiz",S("AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh")),a("Advanced Concept Quiz",S("AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B")),a("C Debug-Code Quiz",S("AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g"))]},
- {n:"Hackathons",items:[a("Hackathon 1 (simple)",S("AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ")),a("Hackathon 2 (simple)",S("AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP")),a("Hackathon 3 (difficult)",S("AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ"))]},
- {n:"Classroom & lab",items:[a("Student Picker",G+"Coronation/"),v("Lab Information","GhhRnwF_nsk"),a("Supporting Tool",S("AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK"))]}
-]}
-];
-
-const grid=document.getElementById("grid"), svg=document.getElementById("edges"), wrap=document.getElementById("wrap");
-let filter="all";
-
-grid.insertAdjacentHTML("beforeend",'<div id="root"><b>FCP</b><span>Fundamentals of Computer Programming</span></div>');
-
-DATA.forEach((cat,i)=>{
-  const row=i+1, st=`--col:var(--${cat.c});--tint:var(--${cat.c}t)`;
-  const c=document.createElement("div");
-  c.className="cat";c.id="cat"+i;c.style.cssText=st+`;grid-row:${row}`;
-  c.innerHTML=`<h2>${i+1}. ${cat.name}</h2><p>${cat.note}</p>`;
-  const s=document.createElement("div");
-  s.className="subs";s.style.cssText=st+`;grid-row:${row}`;
-  cat.subs.forEach((sub,j)=>{
-    const d=document.createElement("div");
-    d.className="sub";d.id=`sub${i}_${j}`;
-    d.innerHTML=`<button aria-expanded="false"><span><span class="chev">▶</span>${sub.n}</span><small></small></button><div class="leaves"></div>`;
-    const L=d.querySelector(".leaves");
-    sub.items.forEach(it=>{
-      const l=document.createElement("a");
-      l.href=it.u;l.target="_blank";l.rel="noopener";l.dataset.k=it.k;
-      l.innerHTML=`<i>${it.k==="v"?"VIDEO":"TOOL"}</i>${it.t}`;
-      L.appendChild(l);
-    });
-    d.querySelector("button").onclick=()=>toggle(d);
-    s.appendChild(d);
-  });
-  grid.append(c,s);
-});
-
-function toggle(d,force){
-  const o=force===undefined?!d.classList.contains("open"):force;
-  d.classList.toggle("open",o);
-  d.querySelector("button").setAttribute("aria-expanded",o);
-  draw();
-}
-
-function applyFilter(){
-  document.querySelectorAll(".sub").forEach(d=>{
-    let n=0;
-    d.querySelectorAll("a").forEach(l=>{
-      const show=filter==="all"||l.dataset.k===filter;
-      l.classList.toggle("hide",!show); if(show)n++;
-    });
-    d.classList.toggle("hide",n===0);
-    d.querySelector("small").textContent=n+(n===1?" item":" items");
-  });
-  draw();
-}
-
-document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{
-  filter=b.dataset.f;
-  document.querySelectorAll("[data-f]").forEach(x=>x.setAttribute("aria-pressed",x===b));
-  applyFilter();
-});
-document.getElementById("exp").onclick=()=>{document.querySelectorAll(".sub").forEach(d=>toggle(d,true))};
-document.getElementById("col").onclick=()=>{document.querySelectorAll(".sub").forEach(d=>toggle(d,false))};
-
-function curve(p,q,color){
-  const mx=(p.x+q.x)/2;
-  const e=document.createElementNS("http://www.w3.org/2000/svg","path");
-  e.setAttribute("d",`M${p.x},${p.y} C${mx},${p.y} ${mx},${q.y} ${q.x},${q.y}`);
-  e.setAttribute("stroke",color);svg.appendChild(e);
-}
-function draw(){
-  svg.innerHTML="";
-  if(innerWidth<=800)return;
-  const W=wrap.getBoundingClientRect(), root=document.getElementById("root").getBoundingClientRect();
-  const out=r=>({x:r.right-W.left,y:r.top+r.height/2-W.top}), inn=r=>({x:r.left-W.left,y:r.top+r.height/2-W.top});
-  DATA.forEach((cat,i)=>{
-    const col=getComputedStyle(document.documentElement).getPropertyValue("--"+cat.c).trim();
-    const cr=document.getElementById("cat"+i).getBoundingClientRect();
-    curve(out(root),inn(cr),col);
-    cat.subs.forEach((_,j)=>{
-      const d=document.getElementById(`sub${i}_${j}`);
-      if(d.classList.contains("hide"))return;
-      curve(out(cr),inn(d.getBoundingClientRect()),col);
-    });
-  });
-}
-new ResizeObserver(draw).observe(wrap);
-addEventListener("resize",draw);
-matchMedia("(prefers-color-scheme:dark)").addEventListener("change",draw);
-applyFilter();
-</script>
-</body>
-</html>
+const S="https://script.google.com/macros/s/",E="/exec",G="https://rms-sof.github.io/";
+const U=[
+["0 · Orientation & fundamentals","#7c3aed",[["FCP Lab information","GhhRnwF_nsk"],["FCP 0 Computer Programming","VeCdA5cO3Rw"],["FCP 0.1 Programming Process","SQoHr5DYUo4"],["FCP 1 TH1 Hardware & Software","6Q1Id-HrZkI"],["FCP 2 TH2 Internet Architecture & Cyber Security","HVWoo8sCMKI"]],[17,8,4]],
+["1 · Introduction to C","#2563eb",[["FCP 3.0 Introduction to C","51kksOUUmlo"],["FCP 3.1 Intro with more examples","jrzrPzyg4LI"],["FCP 3.2 C Programming Introduction","mtg4xNfZsUc"],["FCP 3.3 Intro to C (part 4)","lD48EUaclkY"],["FCP 4 C Programs List","uvgGJCIvlF8"],["FCP 4.1 Data Types & Scientific apps","nicoBWmio2c"],["FCP 5.1 C from a linguistic view","CM2lElJ8ZaA"]],[6,18,14,1,9]],
+["2 · Control flow, arrays, functions, strings","#0891b2",[["FCP 6 Control Flows, Array & Functions","t872IwqYk4w"],["FCP Extra 9.3.1 Loops & 1-D Array","UEVa-PDFV8M"],["FCP 6.1 Recursion","xRvYGRDi4qs"],["FCP 7.1 Strings","ivlKbkR5Yg8"]],[19,10,12]],
+["3 · Pointers & dynamic memory","#16a34a",[["FCP 7.2 Pointers & Dynamic memory","VssWs7I2dXo"],["FCP 7.2 Pointers by Programming","VBZnOh2rSxs"]],[19,20,18,13]],
+["4 · Structures, unions & files","#ca8a04",[["FCP 8 Structure, Union & File handling","2QbYiLB0Y4I"],["FCP 8.1 Structures by Programming","mdcTgBRHJ4U"],["FCP 9.4 Files by Programming","yt2mHqJ7b3I"]],[20,15]],
+["5 · Debugging & programming skills","#ea580c",[["FCP 8.1 Safe Programming & Debugging","2W-1T0ZZqcU"],["FCP 12 Programming Skills","-8TTk8nSE74"],["FCP 13 Lord Ganesha Wisdom & Skills","HiLVD-i8GWM"],["FCP 14 Challenges in Learning C","hP1gV1oD4J4"]],[13,3,11]],
+["6 · Revision, practice & beyond","#db2777",[["FCP 9.1 Chapter 1 & 2","Hm4Q1k1FaWU"],["FCP 9.2 Chapter 3 & 4","IDZJB2EttvE"],["FCP 9.3 Chapter 8 & 13","WuM86AieAYw"],["FCP 9.∞ Cryptic C","cHRr4-HrlUs"],["FCP 10 Gamification of C","Oft0dSIZO0Y"],["FCP 15 Exercise & Tests","2lFaajGl928"],["Building Calculator using Agents","o7-KpNEz2O0"]],[2,16,11,7,5,0]]];
+const T=[["Student Picker",G+"Coronation/"],["C Programming Skill Test",G+"C-Skill-Test/"],["FCP Skill Test",G+"FCP-skill-Test/"],["Problem Solving Skill Test",G+"Problem-Solving-Skill-Test/"],["Language Proficiency Tester",G+"Language-Profeciency-Tester/"],
+["Supporting Tool",S+"AKfycbxrAgJ9I1CRH69UHyBPArDZIHF2pOoIPoGmP44lnFJFWIrpzD81DTYqjI8epcUJY6qK"+E],["C Programming Overview",G+"C-Programming/"],["Agentic Calculator App","https://agent3-kqzfcvap9pxxs7n4ftn8gg.streamlit.app/"],["Entire Contents (Knowledge Graph)",G+"FCP-Knowledge-Graph/"],
+["Quiz 1 (simple)",S+"AKfycbwpevnaXZrRKKug5ofeiSXGLVI0HBcgHyy9GlBchJGPWpfDiQD5SgaA_dHWWBwY_9-NAQ"+E],["Quiz 2 (simple)",S+"AKfycbxqspEv9V5aMJ6cb8XxQhKZuvxiA-S54E9aygyejPGGgAgU24AxVxM75hcbpcf6xhvP"+E],["Quiz 3 (difficult)",S+"AKfycbwWMk9pwHJZrAr555cZ0y0zwaNQPFI0llgq6cy8vkiJS27QgEAuxor6wiNIcQY0jUoarQ"+E],
+["Learn C by Games",G+"C-By-Games/"],["C Debug-Code Quiz",S+"AKfycbwUrHEBN5cku4SGkaQGxFez9CycaFoWSf2_NICEic7WIZBG9xoUGzqA0l8LlSsm6U_v8g"+E],["C Library Functions",G+"C-Lib-Functions/"],
+["Concept Quiz",S+"AKfycbxxE6l5NKzpYEdBoAYfDpGnRuwVS7ymZpLm56zSuirFb2nR2BLMuXyhzAdtAcD8E6qh"+E],["Advance Concept Quiz",S+"AKfycbwzvDMPDHrCCA06mW_tRiIThMxIYpqzChLo--XOkFC_pvqJ2lwFStZyiYO5m90XIQ0B"+E],
+["DNS & Firewall Animations",G+"FCP2-animations/"],["Mental Model for C",G+"C-Mental-Model/"],["C Concepts Visualized 1",G+"C-Visualized/"],["C Concepts Visualized 2",G+"C-Visualized-Part2/"]];
+const L=(c,h,t,x)=>`<a class="n ${c}" href="${h}" target="_blank" rel="noopener noreferrer">${x}${t}</a>`;
+document.getElementById("m").innerHTML=U.map(u=>`<div class="br" style="--c:${u[1]}"><div class="un">${u[0]}<span>${u[2].length} videos · ${u[3].length} tools</span></div><div class="it"><div class="row"><i>Lectures</i>${u[2].map(v=>L("v","https://youtu.be/"+v[1],v[0],"▶ ")).join("")}</div><div class="row"><i>Practice</i>${u[3].map(i=>L("t",T[i][1],T[i][0],"◆ ")).join("")}</div></div></div>`).join("");
+document.getElementById("q").oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll("a.n").forEach(a=>a.classList.toggle("dim",!!q&&!a.textContent.toLowerCase().includes(q)))};
+document.getElementById("th").onclick=()=>{const r=document.documentElement,d=r.dataset.theme=="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+</script></body></html>
